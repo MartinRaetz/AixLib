@@ -4,7 +4,8 @@ model ThermalZone
   extends AixLib.ThermalZones.ReducedOrder.ThermalZone.BaseClasses.PartialThermalZone;
 
   replaceable model corG = SolarGain.CorrectionGDoublePane
-    constrainedby AixLib.ThermalZones.ReducedOrder.SolarGain.BaseClasses.PartialCorrectionG
+    constrainedby
+    AixLib.ThermalZones.ReducedOrder.SolarGain.BaseClasses.PartialCorrectionG
     "Model for correction of solar transmission"
     annotation(choicesAllMatching=true);
   parameter Integer internalGainsMode = 1
@@ -193,6 +194,10 @@ model ThermalZone
     zoneParam.CoolerOn) or (not recOrSep and Cooler_on))
     "Power for cooling" annotation (Placement(transformation(extent={{100,-104},
             {120,-84}}), iconTransformation(extent={{80,-100},{100,-80}})));
+  Multizone.UKA.calcHheat calcHheat
+    annotation (Placement(transformation(extent={{-154,-26},{-134,-6}})));
+  Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin
+    annotation (Placement(transformation(extent={{-218,22},{-198,42}})));
 protected
   Modelica.Blocks.Sources.Constant hConRoof(final k=(zoneParam.hConRoofOut + zoneParam.hRadRoof)*zoneParam.ARoof)
     "Outdoor coefficient of heat transfer for roof" annotation (Placement(transformation(extent={{4,-4},{-4,4}})));
@@ -245,28 +250,32 @@ protected
 
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{80,-100},{80,-78},{54,-78},{54,-46.5},{64,-46.5}}, color={0,0,127}));
-  connect(intGains[3], lights.uRel) annotation (Line(points={{80,-86.6667},{80,-86.6667},{80,-78},{54,-78},{54,-66.5},{64,-66.5}}, color={0,0,127}));
+  connect(intGains[3], lights.uRel) annotation (Line(points={{80,-86.6667},{80,
+          -86.6667},{80,-78},{54,-78},{54,-66.5},{64,-66.5}},                                                                      color={0,0,127}));
   connect(lights.convHeat, ROM.intGainsConv) annotation (Line(points={{83,-60.8},
           {92,-60.8},{92,-60},{92,-60},{92,50},{86,50},{86,50}},
                                        color={191,0,0}));
   connect(machinesSenHea.convHeat, ROM.intGainsConv) annotation (Line(points={{83,
           -40.8},{92,-40.8},{92,-40},{92,-40},{92,50},{86,50},{86,50}},
                                                  color={191,0,0}));
-  connect(intGains[1], humanSenHeaDependent.uRel) annotation (Line(points={{80,-113.333},{80,-113.333},{80,-78},{54,-78},{54,-26},{64,-26}}, color={0,0,127}));
+  connect(intGains[1], humanSenHeaDependent.uRel) annotation (Line(points={{80,
+          -113.333},{80,-113.333},{80,-78},{54,-78},{54,-26},{64,-26}},                                                                      color={0,0,127}));
   connect(humanSenHeaDependent.convHeat, ROM.intGainsConv) annotation (Line(points={{83,-20},{84,-20},{84,-22},{86,-22},{92,-22},{92,50},{86,50},{86,50}},
         color={191,0,0}));
   connect(ROM.intGainsConv, humanSenHeaDependent.TRoom) annotation (Line(points={{86,50},
           {92,50},{92,-6},{65,-6},{65,-17}}, color={191,0,0}));
   connect(humanSenHeaDependent.radHeat, ROM.intGainsRad) annotation (Line(points={{83,-32},{94,-32},{94,54},{86,54}},
                                        color={95,95,95}));
-  connect(intGains[1], humanSenHeaIndependent.uRel) annotation (Line(points={{80,-113.333},{80,-113.333},{80,-78},{54,-78},{54,-26},{64,-26}}, color={0,0,127}));
+  connect(intGains[1], humanSenHeaIndependent.uRel) annotation (Line(points={{80,
+          -113.333},{80,-113.333},{80,-78},{54,-78},{54,-26},{64,-26}},                                                                        color={0,0,127}));
   connect(humanSenHeaIndependent.convHeat, ROM.intGainsConv) annotation (Line(points={{83,-20},{84,-20},{84,-22},{86,-22},{92,-22},{92,50},{86,50},{86,50}},
         color={191,0,0}));
   connect(ROM.intGainsConv, humanSenHeaIndependent.TRoom) annotation (Line(points={{86,50},
           {92,50},{92,-6},{65,-6},{65,-17}}, color={191,0,0}));
   connect(humanSenHeaIndependent.radHeat, ROM.intGainsRad) annotation (Line(points={{83,-32},{94,-32},{94,54},{86,54}},
                                        color={95,95,95}));
-  connect(intGains[1], humanTotHeaDependent.uRel) annotation (Line(points={{80,-113.333},{80,-113.333},{80,-78},{54,-78},{54,-26},{64,-26}}, color={0,0,127}));
+  connect(intGains[1], humanTotHeaDependent.uRel) annotation (Line(points={{80,
+          -113.333},{80,-113.333},{80,-78},{54,-78},{54,-26},{64,-26}},                                                                      color={0,0,127}));
   connect(humanTotHeaDependent.convHeat, ROM.intGainsConv) annotation (Line(points={{83,-20},{84,-20},{84,-22},{86,-22},{92,-22},{92,50},{86,50},{86,50}},
         color={191,0,0}));
   connect(ROM.intGainsConv, humanTotHeaDependent.TRoom) annotation (Line(points={{86,50},
@@ -417,6 +426,20 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(heaterCooler.heatCoolRoom, intGainsConv) annotation (Line(points={{40.7,
           -74.2},{68,-74.2},{68,-2},{104,-2}}, color={191,0,0}));
+  connect(TAir, calcHheat.T_int) annotation (Line(points={{110,56},{116,56},{
+          116,106},{-139.6,106},{-139.6,-7}}, color={0,0,127}));
+  connect(exteriorWallinclWin.y, calcHheat.A_ext) annotation (Line(points={{
+          -197,32},{-144.2,32},{-144.2,-7}}, color={0,0,127}));
+  connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{
+          -135,-14.4},{28.22,-14.4},{28.22,-58.6}}, color={0,0,127}));
+  connect(weaBus.TDryBul, calcHheat.T_air) annotation (Line(
+      points={{-100,34},{-186,34},{-186,-12},{-153,-12}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation(Documentation(info="<html>
 <p>Comprehensive ready-to-use model for thermal zones, combining caclulation core, handling of solar radiation and internal gains. Core model is a <a href=\"AixLib.ThermalZones.ReducedOrder.RC.FourElements\">AixLib.ThermalZones.ReducedOrder.RC.FourElements</a> model. Conditional removements of the core model are passed-through and related models on thermal zone level are as well conditional. All models for solar radiation are part of Annex60 library. Internal gains are part of AixLib.</p>
 <h4>Typical use and important parameters</h4>
