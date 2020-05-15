@@ -45,18 +45,6 @@ model MultizoneEquipped
   parameter Modelica.SIunits.Time sampleRateAHU(min=0) = 1800
     "Time period for sampling"
     annotation (Dialog(tab="AirHandlingUnit", group="Settings for State Machines"));
-  parameter Modelica.SIunits.Pressure dpAHU_sup
-    "Pressure difference over supply fan"
-    annotation (Dialog(tab="AirHandlingUnit", group="Fans"));
-  parameter Modelica.SIunits.Pressure dpAHU_eta
-    "Pressure difference over extract fan"
-    annotation (Dialog(tab="AirHandlingUnit", group="Fans"));
-  parameter Modelica.SIunits.Efficiency effFanAHU_sup
-    "Efficiency of supply fan"
-    annotation (Dialog(tab="AirHandlingUnit", group="Fans"));
-  parameter Modelica.SIunits.Efficiency effFanAHU_eta
-    "Efficiency of extract fan"
-    annotation (Dialog(tab="AirHandlingUnit", group="Fans"));
   replaceable model AHUMod =
     AixLib.Airflow.AirHandlingUnit.AHU
     constrainedby AixLib.Airflow.AirHandlingUnit.BaseClasses.PartialAHU
@@ -75,8 +63,7 @@ model MultizoneEquipped
     origin={-90,0})));
   Modelica.Blocks.Interfaces.RealOutput Pel(
     final quantity="Power",
-    final unit="W") if ASurTot > 0 or VAir > 0
-    "Electrical power of AHU"
+    final unit="W") if ASurTot > 0 or VAir > 0 "Electrical power of AHU"
     annotation (Placement(transformation(extent={{100,-14},{120,6}}),
     iconTransformation(extent={{80,-20},{100,0}})));
   Modelica.Blocks.Interfaces.RealOutput PHeatAHU(final quantity="HeatFlowRate",
@@ -100,16 +87,32 @@ model MultizoneEquipped
     final efficiencyHRS_enabled=effHRSAHU_enabled,
     final efficiencyHRS_disabled=effHRSAHU_disabled,
     final HRS=HRS,
-    final clockPeriodGeneric=sampleRateAHU,
-    final dp_sup=dpAHU_sup,
-    final dp_eta=dpAHU_eta,
-    final eta_sup=effFanAHU_sup,
-    final eta_eta=effFanAHU_eta) if
+    final clockPeriodGeneric=sampleRateAHU) if
        ASurTot > 0 or VAir > 0
     "Air Handling Unit"
     annotation (
     Placement(transformation(extent={{-52,10},{18,40}})));
 
+  Modelica.Blocks.Interfaces.RealInput dp_sup1
+    "pressure difference over supply fan" annotation (Placement(transformation(
+        extent={{-12,-12},{12,12}},
+        rotation=270,
+        origin={-74,100})));
+  Modelica.Blocks.Interfaces.RealInput dp_eta1
+    "pressure difference over extract fan" annotation (Placement(transformation(
+        extent={{-12,-12},{12,12}},
+        rotation=270,
+        origin={-52,100})));
+  Modelica.Blocks.Interfaces.RealInput fan_eta_sup1 "efficiency of supply fan"
+    annotation (Placement(transformation(
+        extent={{-12,-12},{12,12}},
+        rotation=-90,
+        origin={-20,100})));
+  Modelica.Blocks.Interfaces.RealInput fan_eta_eta1 "efficiency of extract fan"
+    annotation (Placement(transformation(
+        extent={{-12,-12},{12,12}},
+        rotation=-90,
+        origin={2,100})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)
     "Calculated zone factors";
@@ -269,6 +272,14 @@ equation
       Line(points={{44,20.8},{44,12},{28,12},{28,44},{-56,44},{-56,31},{-50.6,
           31}},
         color={0,0,127}));
+  connect(AirHandlingUnit.dp_sup, dp_sup1) annotation (Line(points={{-33.1,38.5},
+          {-33.1,86},{-74,86},{-74,100}}, color={0,0,127}));
+  connect(AirHandlingUnit.dp_eta, dp_eta1) annotation (Line(points={{-27.5,38.5},
+          {-27.5,88},{-52,88},{-52,100}}, color={0,0,127}));
+  connect(AirHandlingUnit.fan_eta_sup, fan_eta_sup1) annotation (Line(points={{-10,
+          38.5},{-10,88},{-20,88},{-20,100}}, color={0,0,127}));
+  connect(AirHandlingUnit.fan_eta_eta, fan_eta_eta1) annotation (Line(points={{-4.4,
+          38.5},{-4.4,100},{2,100}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}}),

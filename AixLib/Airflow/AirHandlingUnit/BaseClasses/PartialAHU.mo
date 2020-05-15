@@ -46,18 +46,6 @@ partial model PartialAHU "Defines necessary parameters and connectors"
     "taking a little heat transfer into account although HRS is disabled 
     (in case that a HRS is physically installed in the AHU)"
     annotation (Dialog(group="Settings AHU Value", enable=HRS));
-  // assumed increase in ventilator pressure
-  parameter Modelica.SIunits.Pressure dp_sup=800
-    "pressure difference over supply fan"
-    annotation (Dialog(tab="Fans", group="Constant Assumptions"));
-  parameter Modelica.SIunits.Pressure dp_eta=800
-    "pressure difference over extract fan"
-    annotation (Dialog(tab="Fans", group="Constant Assumptions"));
-  // assumed efficiencies of the ventilators
-  parameter Modelica.SIunits.Efficiency eta_sup=0.7 "efficiency of supply fan"
-    annotation (Dialog(tab="Fans", group="Constant Assumptions"));
-  parameter Modelica.SIunits.Efficiency eta_eta=0.7 "efficiency of extract fan"
-    annotation (Dialog(tab="Fans", group="Constant Assumptions"));
 
   Modelica.Blocks.Interfaces.RealInput Vflow_in(unit="m3/s") "m3/s"
                                                 annotation (Placement(
@@ -151,6 +139,38 @@ partial model PartialAHU "Defines necessary parameters and connectors"
    use_Vflow_in_extractAir "Volume flow of extract air"
     annotation (Placement(transformation(extent={{114,80},{86,108}}),
         iconTransformation(extent={{88,32},{80,40}})));
+  Modelica.Blocks.Interfaces.RealInput dp_sup(unit="Pa")
+    "pressure difference over supply fan" annotation (Placement(transformation(
+        extent={{-14,-14},{14,14}},
+        rotation=-90,
+        origin={-46,100}), iconTransformation(
+        extent={{-4,-4},{4,4}},
+        rotation=270,
+        origin={-46,36})));
+  Modelica.Blocks.Interfaces.RealInput dp_eta(unit="Pa")
+    "pressure difference over extract fan" annotation (Placement(transformation(
+        extent={{-14,-14},{14,14}},
+        rotation=-90,
+        origin={-16,100}), iconTransformation(
+        extent={{-4,-4},{4,4}},
+        rotation=270,
+        origin={-30,36})));
+  Modelica.Blocks.Interfaces.RealInput fan_eta_sup "efficiency of supply fan"
+    annotation (Placement(transformation(
+        extent={{-14,-14},{14,14}},
+        rotation=-90,
+        origin={22,100}), iconTransformation(
+        extent={{-4,-4},{4,4}},
+        rotation=270,
+        origin={20,36})));
+  Modelica.Blocks.Interfaces.RealInput fan_eta_eta "efficiency of extract fan"
+    annotation (Placement(transformation(
+        extent={{-14,-14},{14,14}},
+        rotation=270,
+        origin={48,100}), iconTransformation(
+        extent={{-4,-4},{4,4}},
+        rotation=270,
+        origin={36,36})));
 protected
   Modelica.Blocks.Interfaces.RealInput Vflow_in_extractAir_internal(unit="m3/s") "Needed to connect to conditional connector";
 equation

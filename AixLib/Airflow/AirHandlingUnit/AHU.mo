@@ -69,6 +69,11 @@ model AHU
   inner Modelica.SIunits.VolumeFlowRate V_dot_sup(start=1e-3);
   inner Modelica.SIunits.VolumeFlowRate V_dot_eta(start=1e-3);
 
+  inner Modelica.SIunits.Pressure dp_s;
+  inner Modelica.SIunits.Pressure dp_e;
+  inner Real fan_eta_s(start=0.631);
+  inner Real fan_eta_e(start=0.631);
+
   // Constants from formulas collection of Thermodynamik (institute: LTT)
   constant Modelica.SIunits.SpecificHeatCapacityAtConstantPressure c_pL_iG=1E3;
   constant Modelica.SIunits.SpecificHeatCapacityAtConstantPressure c_pW_iG=1.86E3;
@@ -87,7 +92,7 @@ model AHU
 
   // Sampler (time-continous to time-discrete variables)
 
-  Modelica_Synchronous.RealSignals.Sampler.SampleVectorizedAndClocked sample(n=9)
+  Modelica_Synchronous.RealSignals.Sampler.SampleVectorizedAndClocked sample(n=13)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -748,6 +753,10 @@ equation
   X_eta = sample.y[7];
   V_dot_sup = sample.y[8];
   V_dot_eta = sample.y[9];
+  dp_s = sample.y[10];
+  dp_e = sample.y[11];
+  fan_eta_s = sample.y[12];
+  fan_eta_e = sample.y[13];
 
   // absolute humidity for state of saturated outdoor air
   X_odaSat = molarMassRatio*(611.2*exp(17.62*(T_oda - T_0)/(243.12 + T_oda -
@@ -849,11 +858,11 @@ equation
     phi_extractAir*Modelica.Media.Air.MoistAir.saturationPressure(T_extractAir));
 
   // calculation of T_5 and T_6 regarding the electrical power consumption
-  P_el_sup = V_dot_sup*dp_sup/eta_sup
+  P_el_sup = V_dot_sup*dp_s/fan_eta_s
     "Calculation of electrical power consumption";
   P_el_sup = V_dot_sup*rho*(c_pL_iG + X_sup*c_pW_iG)*(T_sup - T_5)
     "Calculation of T_5 by using V_dot_sup, efficiency eta_sup and input variable T_sup";
-  P_el_eta = V_dot_eta*dp_eta/eta_eta
+  P_el_eta = V_dot_eta*dp_e/fan_eta_e
     "Calculation of electrical power consumption";
   P_el_eta = V_dot_eta*rho*(c_pL_iG + X_eta*c_pW_iG)*(T_6 - T_eta)
     "Calculation of T_6 by using V_dot_eta, efficiency eta_eta and input variable T_eta";
@@ -1277,19 +1286,19 @@ equation
   //stateToHuCHRS_false==false,
 
   connect(T_outdoorAir, sample.u[1]) annotation (Line(points={{-100,56},{-100,
-          56},{-67.7778,56},{-67.7778,26}},
+          56},{-67.8462,56},{-67.8462,26}},
                                     color={0,0,127}));
   connect(X_outdoorAir, sample.u[2]) annotation (Line(points={{-100,36},{-100,
-          36},{-67.3333,36},{-67.3333,26}},
+          36},{-67.5385,36},{-67.5385,26}},
                                     color={0,0,127}));
   connect(T_supplyAir, sample.u[3]) annotation (Line(points={{100,36},{100,42},
-          {-66.8889,42},{-66.8889,26}},
+          {-67.2308,42},{-67.2308,26}},
                             color={0,0,127}));
   connect(T_extractAir, sample.u[4]) annotation (Line(points={{100,78},{-60,78},
-          {-60,60},{-66.4444,60},{-66.4444,26}},
+          {-60,60},{-66.9231,60},{-66.9231,26}},
                             color={0,0,127}));
-  connect(Vflow_in, sample.u[8]) annotation (Line(points={{-100,82},{-64.6667,
-          82},{-64.6667,26}},
+  connect(Vflow_in, sample.u[8]) annotation (Line(points={{-100,82},{-65.6923,82},
+          {-65.6923,26}},
                        color={0,0,127}));
   connect(Vflow_in_extractAir_internal, sample.u[9]);
   connect(hold_phi_sup.y, phi_supply) annotation (Line(points={{79,9},{99,9},{99,
@@ -1347,6 +1356,16 @@ equation
       fontSize=2,
       textStyle={TextStyle.Bold},
       horizontalAlignment=TextAlignment.Left));
+  connect(dp_sup, sample.u[10]) annotation (Line(points={{-46,100},{-46,52},{
+          -65.0769,52},{-65.0769,26}},
+                              color={0,0,127}));
+  connect(dp_eta, sample.u[11]) annotation (Line(points={{-16,100},{-16,52},{
+          -64.7692,52},{-64.7692,26}},
+                              color={0,0,127}));
+  connect(fan_eta_sup, sample.u[12]) annotation (Line(points={{22,100},{22,52},
+          {-64.4615,52},{-64.4615,26}},color={0,0,127}));
+  connect(fan_eta_eta, sample.u[13]) annotation (Line(points={{48,100},{48,52},
+          {-64.1538,52},{-64.1538,26}},color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}}),
