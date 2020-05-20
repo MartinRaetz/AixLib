@@ -26,8 +26,8 @@ equation
 
   T_limit = T_l;
   Hheat_0 = Hheat_zero;
-  connect(Hheat_zero, Hheat_zero)
-    annotation (Line(points={{98,46},{98,46}}, color={0,0,127}));
+
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end threshold;
