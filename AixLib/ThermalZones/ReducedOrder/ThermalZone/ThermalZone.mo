@@ -196,7 +196,9 @@ model ThermalZone
             {120,-84}}), iconTransformation(extent={{80,-100},{100,-80}})));
   Multizone.UKA.calcHheat calcHheat
     annotation (Placement(transformation(extent={{-154,-26},{-134,-6}})));
-  Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin
+  Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin(
+  final AExt = sum(zoneParam.AExt),
+  final AWin = sum(zoneParam.AWin))
     annotation (Placement(transformation(extent={{-218,22},{-198,42}})));
 protected
   Modelica.Blocks.Sources.Constant hConRoof(final k=(zoneParam.hConRoofOut + zoneParam.hRadRoof)*zoneParam.ARoof)
