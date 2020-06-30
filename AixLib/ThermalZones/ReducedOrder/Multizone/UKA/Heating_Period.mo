@@ -52,5 +52,9 @@ if eff_time < Heating_period_spring then
 end if;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<p>This model turns the heater on in the heating period.</p>
+<p>It is dependent on the simulation time. Default starting point is 1.January 2020. Heater turns off on 01.06.2020 and turns on again on 01.09.2020</p>
+</html>"));
 end Heating_Period;
