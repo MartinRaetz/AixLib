@@ -16,21 +16,10 @@ Real b "y-axis section";
 
 equation
 
-if T_air > 261.15 then
-
 T_sup = m*T_air + b;
 
 273.15 + 70 = m*(273.15+10)+b;
 273.15 + 90 = m*(273.15-12)+b;
-
-else
-
-  m=0;
-  b=0;
-
-  T_sup = 273.15 + 90;
-
-end if;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
