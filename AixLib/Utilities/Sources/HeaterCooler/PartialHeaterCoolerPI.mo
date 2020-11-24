@@ -89,6 +89,10 @@ equation
       smooth=Smooth.None));
   connect(Cooling.Q_flow,coolingPower)  annotation (Line(points={{26,-12.5},{56,
           -12.5},{56,-6},{100,-6}}, color={0,0,127}));
+  connect(CustomHeat, Heating.Q_flow) annotation (Line(points={{0,100},{0,40},{
+          48,40},{48,12},{26,12}}, color={0,0,127}));
+  connect(CustomHeat, heatingPower)
+    annotation (Line(points={{0,100},{0,40},{100,40}}, color={0,0,127}));
   annotation (Documentation(info = "<html><h4>
   <span style=\"color:#008000\">Overview</span>
 </h4>
