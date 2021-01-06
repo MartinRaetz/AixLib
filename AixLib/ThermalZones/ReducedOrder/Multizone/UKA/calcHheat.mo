@@ -49,6 +49,8 @@ model calcHheat
         "modelica://AixLib/Resources/LowOrder_ExampleData/AHU_Input_6Zone_SIA_4Columns.txt"))
     "Boundary conditions for air handling unit"
     annotation (Placement(transformation(extent={{-70,-38},{-54,-22}})));
+  Modelica.Blocks.Interfaces.RealInput T_air
+    annotation (Placement(transformation(extent={{-120,24},{-80,64}})));
 equation
   connect(CalcAheat.A_heat, Calculation.A_heat) annotation (Line(points={{-2,37},
           {-2,14},{-7.2,14},{-7.2,-23}},color={0,0,127}));

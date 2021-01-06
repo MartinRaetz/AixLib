@@ -685,12 +685,8 @@ equation
         color={0,0,127}));
   connect(humVolAirROM.y, airExcMoi.HumOut) annotation (Line(points={{-59.5,-50},
           {-4,-50},{-4,0},{-6,0},{-6,0.16},{-6.8,0.16}}, color={0,0,127}));
-  connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{
-          155,63.6},{166,63.6},{166,44},{72.34,44}}, color={0,0,127}));
-  connect(TAir, calcHheat.T_int) annotation (Line(points={{110,80},{150,80},{
-          150,72},{150.4,72},{150.4,71}}, color={0,0,127}));
   connect(weaBus.TDryBul, calcHheat.T_air) annotation (Line(
-      points={{-100,34},{-102,34},{-102,104},{132,104},{132,66},{137,66}},
+      points={{-100,34},{-102,34},{-102,104},{132,104},{132,66.4},{136,66.4}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -699,6 +695,11 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(calcHheat.A_ext, exteriorWallinclWin.y) annotation (Line(points={{
           145.8,71},{144,71},{144,90},{155,90}}, color={0,0,127}));
+  connect(TAir, calcHheat.T_int) annotation (Line(points={{110,80},{150,80},{
+          150,71},{150.4,71}}, color={0,0,127}));
+  connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{
+          155,63.6},{166,63.6},{166,48},{72,48},{72,44},{72.34,44}}, color={0,0,
+          127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>November 20, 2020, by Katharina Breuer:<br>Combine thermal zone models</li>
@@ -730,7 +731,8 @@ equation
 </ul>
 <h4>Examples </h4>
 <p>See <a href=\"AixLib.ThermalZones.ReducedOrder.Examples.ThermalZone\">AixLib.ThermalZones.ReducedOrder.Examples.ThermalZone</a>. </p>
-</html>"), Diagram(graphics={
+</html>"), Diagram(coordinateSystem(extent={{-100,-100},{200,120}}),
+                   graphics={
         Polygon(
           points={{30,10},{-88,10},{-88,58},{-24,58},{-24,26},{30,26},{30,10}},
           lineColor={0,0,255},
@@ -836,5 +838,6 @@ Infiltration
           lineColor={0,0,255},
           fillColor={212,221,253},
           fillPattern=FillPattern.Solid,
-          textString="CO2")}));
+          textString="CO2")}),
+    Icon(coordinateSystem(extent={{-100,-100},{200,120}})));
 end ThermalZone;
