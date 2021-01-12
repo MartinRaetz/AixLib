@@ -42,11 +42,11 @@ model calcHheat
     annotation (Placement(transformation(extent={{18,-80},{32,-66}})));
   Modelica.Blocks.Sources.CombiTimeTable table_TFlow(
     tableOnFile=true,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
     tableName="TFlow",
     columns=2:3,
     fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://AixLib/Resources/LowOrder_ExampleData/TFlow_HUS.txt"))
+        "modelica://AixLib/Resources/LowOrder_ExampleData/Measurement data for validation HUS Triangle Floor 7.txt"))
     "T_sup and T_re timeseries"
     annotation (Placement(transformation(extent={{-70,-38},{-54,-22}})));
   Modelica.Blocks.Interfaces.RealInput TDryBul
