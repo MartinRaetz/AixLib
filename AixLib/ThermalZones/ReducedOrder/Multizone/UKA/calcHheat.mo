@@ -46,9 +46,10 @@ model calcHheat
     tableName="TFlow",
     columns=2:3,
     fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://AixLib/Resources/LowOrder_ExampleData/Measurement data for validation HUS Triangle Floor 7.txt"))
+        "modelica://AixLib/Resources/LowOrder_ExampleData/Measurement data for validation HUS Triangle Floor 7.txt"),
+    offset={273.15})
     "T_sup and T_re timeseries"
-    annotation (Placement(transformation(extent={{-70,-38},{-54,-22}})));
+    annotation (Placement(transformation(extent={{-90,-36},{-74,-20}})));
   Modelica.Blocks.Interfaces.RealInput TDryBul
     annotation (Placement(transformation(extent={{-120,20},{-80,60}})));
 equation
@@ -75,10 +76,10 @@ equation
   connect(const.y, switch2.u3)
     annotation (Line(points={{32.7,-73},{38,-73},{38,-46},{42,-46}},
                                                    color={0,0,127}));
-  connect(table_TFlow.y[1], Calculation.T_sup) annotation (Line(points={{-53.2,
-          -30},{-34,-30},{-34,-27.8},{-16.96,-27.8}},color={0,0,127}));
-  connect(table_TFlow.y[2], Calculation.T_re) annotation (Line(points={{-53.2,
-          -30},{-34,-30},{-34,-30.2},{-16.96,-30.2}},
+  connect(table_TFlow.y[1], Calculation.T_sup) annotation (Line(points={{-73.2,
+          -28},{-34,-28},{-34,-27.8},{-16.96,-27.8}},color={0,0,127}));
+  connect(table_TFlow.y[2], Calculation.T_re) annotation (Line(points={{-73.2,
+          -28},{-34,-28},{-34,-30.2},{-16.96,-30.2}},
                                                 color={0,0,127}));
   connect(Calculation.n_heater, CalcNheater.n_heater) annotation (Line(points={{-9.16,
           -23},{-9.16,8.5},{-9,8.5},{-9,27}},color={0,0,127}));
