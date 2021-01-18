@@ -38,13 +38,10 @@ model calcHheat
 
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.calculation
     Calculation annotation (Placement(transformation(extent={{-14,-42},{6,-22}})));
-  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.threshold
-    Threshold
-    annotation (Placement(transformation(extent={{-72,-68},{-52,-48}})));
   Modelica.Blocks.Logical.Switch switch2
     annotation (Placement(transformation(extent={{44,-48},{64,-28}})));
   Heating_Period heating_Period
-    annotation (Placement(transformation(extent={{-12,-68},{8,-48}})));
+    annotation (Placement(transformation(extent={{-14,-68},{6,-48}})));
   Modelica.Blocks.Nonlinear.Limiter limiter(uMax=273.15 + 10, uMin=273.15 - 12)
     annotation (Placement(transformation(extent={{-76,-18},{-56,2}})));
   Modelica.Blocks.Sources.Constant const(k=0)
@@ -59,14 +56,7 @@ equation
                           color={0,0,127}));
   connect(switch2.y, Hheat) annotation (Line(points={{65,-38},{68,-38},{68,-8},
           {78,-8},{78,-1},{99,-1}},  color={0,0,127}));
-  connect(Threshold.Heating_period_spring, heating_Period.Heating_period_spring)
-    annotation (Line(points={{-53,-61.4},{-36,-61.4},{-36,-52.8},{-11,-52.8}},
-        color={0,0,127}));
-  connect(Threshold.Heating_period_autumn, heating_Period.Heating_period_autumn)
-    annotation (Line(points={{-53,-65.2},{-42,-65.2},{-42,-64},{-16,-64},{-16,
-          -63.4},{-11,-63.4}},
-        color={0,0,127}));
-  connect(heating_Period.Heater_switch, switch2.u2) annotation (Line(points={{7,-56.4},
+  connect(heating_Period.Heater_switch, switch2.u2) annotation (Line(points={{5,-56.4},
           {24,-56.4},{24,-38},{42,-38}},           color={255,0,255}));
   connect(CalcTsup.T_sup, Calculation.T_sup) annotation (Line(points={{-25,-8.2},
           {-22,-8.2},{-22,-30.2},{-13.2,-30.2}}, color={0,0,127}));

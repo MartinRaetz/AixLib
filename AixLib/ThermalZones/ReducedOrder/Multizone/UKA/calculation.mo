@@ -1,7 +1,7 @@
 within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
 model calculation
 
-  parameter Real specificHeatFlowfactor( final unit="W/(K.m2)")=10 "empirical factor for heat flux calculation";
+  parameter Real specificHeatFlowfactor( final unit="W/(K.m2)")=17.21 "empirical factor for heat flux calculation";
 
    Modelica.Blocks.Interfaces.RealInput T_int(final unit="K")
     "Inside air temperature"
