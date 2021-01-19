@@ -5,9 +5,9 @@ model calcVFlow
   parameter Real VFlow_rel_Min = 0;
   parameter Real ControlBand = 2;
 
-  Modelica.Blocks.Interfaces.RealInput T_setpoint
+  Modelica.Blocks.Interfaces.RealInput T_setpoint( final unit="K")
     annotation (Placement(transformation(extent={{-120,50},{-80,90}})));
-  Modelica.Blocks.Interfaces.RealInput T_room
+  Modelica.Blocks.Interfaces.RealInput T_room( final unit="K")
     annotation (Placement(transformation(extent={{-120,-90},{-80,-50}})));
   Modelica.Blocks.Interfaces.RealOutput VFlow_rel
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));

@@ -1,24 +1,26 @@
 within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
 model calcHheat
+
+  parameter Real mFlow_max( final unit="kg/s") = 0.0057;
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.calcNheater CalcNheater
-    annotation (Placement(transformation(extent={{-22,26},{4,46}})));
+    annotation (Placement(transformation(extent={{-30,40},{-4,60}})));
 
  Modelica.Blocks.Interfaces.RealInput A_ext(final unit="m2")
     "Exterior Wall Area"
  annotation (Placement(transformation(extent={{-18,-18},{18,18}},
         rotation=-90,
-        origin={-10,100}),
+        origin={-66,100}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={-2,90})));
+        origin={-60,90})));
    Modelica.Blocks.Interfaces.RealInput T_int(final unit="K")
     "Inside air temperature"
- annotation (Placement(transformation(extent={{-17,-17},{17,17}},
+ annotation (Placement(transformation(extent={{-18,-18},{18,18}},
         rotation=-90,
-        origin={45,101}),
+        origin={22,100}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={44,90})));
+        origin={20,90})));
 
          Modelica.Blocks.Interfaces.RealOutput Hheat(final unit="W")
     "heater power"
@@ -27,10 +29,8 @@ model calcHheat
         origin={99,-37}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={90,16})));
+        origin={90,20})));
 
-  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.calculation
-    Calculation annotation (Placement(transformation(extent={{-18,-42},{8,-22}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.threshold
     Threshold
     annotation (Placement(transformation(extent={{-72,-68},{-48,-50}})));
@@ -40,24 +40,30 @@ model calcHheat
     annotation (Placement(transformation(extent={{-22,-70},{12,-50}})));
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{18,-80},{32,-66}})));
-  Modelica.Blocks.Sources.CombiTimeTable table_TFlow(
-    tableOnFile=true,
-    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
-    tableName="TFlow",
-    columns=2:3,
-    fileName=Modelica.Utilities.Files.loadResource(
-        "modelica://AixLib/Resources/LowOrder_ExampleData/Measurement data for validation HUS Triangle Floor 7.txt"),
-    offset={273.15})
-    "T_sup and T_re timeseries"
-    annotation (Placement(transformation(extent={{-90,-36},{-74,-20}})));
-  Modelica.Blocks.Interfaces.RealInput TDryBul
-    annotation (Placement(transformation(extent={{-120,20},{-80,60}})));
+  Modelica.Blocks.Interfaces.RealInput TDryBul( final unit="K")
+    annotation (Placement(transformation(extent={{-120,0},{-80,40}}),
+        iconTransformation(extent={{-120,0},{-80,40}})));
+  Modelica.Blocks.Interfaces.RealInput T_int_setpoint( final unit="K") annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={70,100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={70,90})));
+  TSupControl tSupControl
+    annotation (Placement(transformation(extent={{-64,-32},{-44,-12}})));
+  calcVFlow calcVFlow1 annotation (Placement(transformation(
+        extent={{-13,-14},{13,14}},
+        rotation=-90,
+        origin={58,23})));
+  Modelica.Blocks.Math.Gain gain(k=mFlow_max)
+    annotation (Placement(transformation(extent={{42,-10},{22,10}})));
+  calculation_MFlow calculation_MFlow1
+    annotation (Placement(transformation(extent={{-24,-36},{0,-16}})));
 equation
-  connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-10,100},{-10,72},
-          {-9.26,72},{-9.26,45}},
-                          color={0,0,127}));
-  connect(T_int, Calculation.T_int) annotation (Line(points={{45,101},{45,10},{
-          0.72,10},{0.72,-23}},
+  connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-66,100},{-66,72},
+          {-17.26,72},{-17.26,59}},
                           color={0,0,127}));
   connect(switch2.y, Hheat) annotation (Line(points={{65,-38},{76,-38},{76,-37},
           {99,-37}},                 color={0,0,127}));
@@ -71,20 +77,29 @@ equation
         color={0,0,127}));
   connect(heating_Period.Heater_switch, switch2.u2) annotation (Line(points={{10.3,
           -58.4},{24,-58.4},{24,-38},{42,-38}},    color={255,0,255}));
-  connect(Calculation.Hheat, switch2.u1) annotation (Line(points={{6.7,-30.4},{
-          12.5,-30.4},{12.5,-30},{42,-30}}, color={0,0,127}));
   connect(const.y, switch2.u3)
     annotation (Line(points={{32.7,-73},{38,-73},{38,-46},{42,-46}},
                                                    color={0,0,127}));
-  connect(table_TFlow.y[1], Calculation.T_sup) annotation (Line(points={{-73.2,
-          -28},{-34,-28},{-34,-27.8},{-16.96,-27.8}},color={0,0,127}));
-  connect(table_TFlow.y[2], Calculation.T_re) annotation (Line(points={{-73.2,
-          -28},{-34,-28},{-34,-30.2},{-16.96,-30.2}},
-                                                color={0,0,127}));
-  connect(Calculation.n_heater, CalcNheater.n_heater) annotation (Line(points={{-9.16,
-          -23},{-9.16,8.5},{-9,8.5},{-9,27}},color={0,0,127}));
   connect(Hheat, Hheat)
     annotation (Line(points={{99,-37},{99,-37}}, color={0,0,127}));
+  connect(TDryBul, tSupControl.T_air) annotation (Line(points={{-100,20},{-72,20},
+          {-72,-22},{-64,-22}}, color={0,0,127}));
+  connect(calcVFlow1.T_room, T_int) annotation (Line(points={{48.2,36},{48.2,66},
+          {22,66},{22,100}}, color={0,0,127}));
+  connect(T_int_setpoint, calcVFlow1.T_setpoint) annotation (Line(points={{70,100},
+          {66,100},{66,36},{67.8,36}}, color={0,0,127}));
+  connect(gain.u, calcVFlow1.VFlow_rel)
+    annotation (Line(points={{44,0},{58,0},{58,10}}, color={0,0,127}));
+  connect(tSupControl.T_sup, calculation_MFlow1.T_sup)
+    annotation (Line(points={{-44,-22},{-22.8,-22}}, color={0,0,127}));
+  connect(calculation_MFlow1.n_heater, CalcNheater.n_heater) annotation (Line(
+        points={{-16.8,-17},{-16.8,12.5},{-17,12.5},{-17,41}}, color={0,0,127}));
+  connect(calculation_MFlow1.T_int, T_int) annotation (Line(points={{-4.8,-17},{
+          -4.8,34.5},{22,34.5},{22,100}}, color={0,0,127}));
+  connect(calculation_MFlow1.Hheat, switch2.u1) annotation (Line(points={{-1.2,-22},
+          {22,-22},{22,-30},{42,-30}}, color={0,0,127}));
+  connect(gain.y, calculation_MFlow1.mFlow) annotation (Line(points={{21,0},{-36,
+          0},{-36,-30},{-22.8,-30}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=3600, Interval=3600));

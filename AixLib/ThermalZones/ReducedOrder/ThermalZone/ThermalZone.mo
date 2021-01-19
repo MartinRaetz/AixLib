@@ -393,10 +393,12 @@ public
     "Calculates diffuse solar radiation on titled surface for roof"
     annotation (Placement(transformation(extent={{-84,61},{-68,77}})));
   Multizone.UKA.calcHheat calcHheat
-    annotation (Placement(transformation(extent={{136,52},{156,72}})));
+    annotation (Placement(transformation(extent={{140,52},{172,70}})));
   Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
-    annotation (Placement(transformation(extent={{176,80},{156,100}})));
+    annotation (Placement(transformation(extent={{174,94},{154,114}})));
+  Modelica.Blocks.Sources.Constant const(k=273.15 + 21)
+    annotation (Placement(transformation(extent={{192,74},{172,94}})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
           80,-94},{78,-94},{78,-88},{48,-88},{48,-46.5},{56,-46.5}}, color={0,0,
@@ -686,20 +688,22 @@ equation
   connect(humVolAirROM.y, airExcMoi.HumOut) annotation (Line(points={{-59.5,-50},
           {-4,-50},{-4,0},{-6,0},{-6,0.16},{-6.8,0.16}}, color={0,0,127}));
   connect(weaBus.TDryBul, calcHheat.TDryBul) annotation (Line(
-      points={{-100,34},{-102,34},{-102,104},{132,104},{132,66},{136,66}},
+      points={{-100,34},{-102,34},{-102,104},{132,104},{132,62.8},{140,62.8}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(calcHheat.A_ext, exteriorWallinclWin.y) annotation (Line(points={{145.8,
-          71},{146,71},{146,90},{155,90}},       color={0,0,127}));
-  connect(TAir, calcHheat.T_int) annotation (Line(points={{110,80},{150,80},{
-          150,71},{150.4,71}}, color={0,0,127}));
-  connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{155,
-          63.6},{166,63.6},{166,46},{72,46},{72,44},{72.34,44}},     color={0,0,
+  connect(calcHheat.A_ext, exteriorWallinclWin.y) annotation (Line(points={{146.4,
+          69.1},{146.4,104},{153,104}},          color={0,0,127}));
+  connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{170.4,
+          62.8},{188,62.8},{188,46},{72,46},{72,44},{72.34,44}},     color={0,0,
           127}));
+  connect(TAir, calcHheat.T_int) annotation (Line(points={{110,80},{159.2,80},{
+          159.2,69.1}}, color={0,0,127}));
+  connect(calcHheat.T_int_setpoint, const.y) annotation (Line(points={{167.2,
+          69.1},{167.2,84},{171,84}}, color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>November 20, 2020, by Katharina Breuer:<br>Combine thermal zone models</li>
