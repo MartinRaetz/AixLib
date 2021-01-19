@@ -5,7 +5,9 @@ model calculation
   parameter Real n(final unit="")= 1.2876 "Purme Hygiene Type 20 Radiators Height 60 Length 200 : empirical coefficent for radiator calculation (Heizkörperkoeffizient (https://www.energie-lexikon.info/heizkoerperexponent.html)";
   parameter Real Q_Norm( final unit="W")= 2170 "Purme Hygiene Type 20 Radiators Height 60 Length 200";
   parameter Real deltaT_Norm = 49.8 "Norm temperature difference";
+  parameter Real cp_w(final unit="J/(kg.K)") = 4184;
   Real deltaT_lnBetrieb;
+  Real m_flow(final unit="kg/s");
 
    Modelica.Blocks.Interfaces.RealInput T_int(final unit="K")
     "Inside air temperature"
@@ -58,6 +60,9 @@ equation
   end if;
 
   Hheat = n_heater*Q_Norm*(deltaT_lnBetrieb/deltaT_Norm)^n;
+
+  //Calculation of Massflow/ReturnTemperature
+  Hheat = n_heater*m_flow*cp_w*(T_sup-T_re);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
