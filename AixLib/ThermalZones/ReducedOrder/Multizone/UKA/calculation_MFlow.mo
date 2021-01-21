@@ -45,13 +45,13 @@ model calculation_MFlow "Calculates heating power"
   Modelica.Blocks.Interfaces.RealInput mFlow( final unit="kg/s")
     annotation (Placement(transformation(extent={{-120,-80},{-80,-40}}),
         iconTransformation(extent={{-100,-50},{-80,-30}})));
-  Modelica.Blocks.Interfaces.RealOutput T_re( final unit="K") annotation (Placement(
+  Modelica.Blocks.Interfaces.RealOutput T_re( final unit="K",start=303) annotation (Placement(
         transformation(extent={{64,-66},{100,-30}}), iconTransformation(extent={{80,-50},
             {100,-30}})));
 equation
 
   // Fail-Save condition to prevent a mathematical error in the log function
-  if noEvent(T_int < T_re and T_re < T_sup) then
+  if noEvent(T_int < T_re and T_re < T_sup and mFlow > 0.0002) then
     deltaT_lnBetrieb = (T_sup-T_re)/Modelica.Math.log((T_sup-T_int)/(T_re-T_int));
   else
     deltaT_lnBetrieb = 0;
