@@ -115,7 +115,7 @@ model MultizoneEquipped
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
   Modelica.Blocks.Math.Add add(k1=-1)
     annotation (Placement(transformation(extent={{-158,12},{-138,32}})));
-  Modelica.Blocks.Math.Add add1(k1=-1)
+  Modelica.Blocks.Math.Add add1(k1=-3)
     annotation (Placement(transformation(extent={{-160,42},{-140,62}})));
   Modelica.Blocks.Sources.RealExpression TSetAHU(y=297.15)
     "temperature that the AHU should try keeping inside the Room"
