@@ -113,6 +113,13 @@ model MultizoneEquipped
   Modelica.Blocks.Interfaces.RealOutput CO2Con[size(zone, 1)] if use_C_flow
     "CO2 concentration in the thermal zone in ppm"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
+  Modelica.Blocks.Math.Add add(k1=-1)
+    annotation (Placement(transformation(extent={{-158,12},{-138,32}})));
+  Modelica.Blocks.Math.Add add1(k1=-1)
+    annotation (Placement(transformation(extent={{-160,42},{-140,62}})));
+  Modelica.Blocks.Sources.RealExpression TSetAHU(y=297.15)
+    "temperature that the AHU should try keeping inside the Room"
+    annotation (Placement(transformation(extent={{-190,24},{-170,44}})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)
     "Calculated zone factors";
@@ -220,11 +227,6 @@ equation
 
   end for;
 
-  connect(AHU[1], AirHandlingUnit.T_supplyAir) annotation (Line(
-      points={{-100,-31},{-100,-14},{-86,-14},{-86,2},{24,2},{24,19.75},{12.4,19.75}},
-      color={0,0,127},
-      smooth=Smooth.None));
-
   connect(airFlowRate.airFlow, AirHandlingUnit.Vflow_in) annotation (Line(
       points={{-58.8,28},{-58,28},{-58,21.25},{-50.6,21.25}},
       color={0,0,127},
@@ -319,6 +321,16 @@ equation
         color={0,0,127}));
   end if;
 
+  connect(minTemp.y, add.u2) annotation (Line(points={{19.5,-28},{-176,-28},{
+          -176,16},{-160,16}}, color={0,0,127}));
+  connect(TSetAHU.y, add.u1) annotation (Line(points={{-169,34},{-164,34},{-164,
+          28},{-160,28}}, color={0,0,127}));
+  connect(add.y, add1.u1) annotation (Line(points={{-137,22},{-120,22},{-120,58},
+          {-162,58}}, color={0,0,127}));
+  connect(TSetAHU.y, add1.u2) annotation (Line(points={{-169,34},{-166,34},{
+          -166,46},{-162,46}}, color={0,0,127}));
+  connect(add1.y, AirHandlingUnit.T_supplyAir) annotation (Line(points={{-139,
+          52},{-112,52},{-112,19.75},{12.4,19.75}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
         Text(
