@@ -52,7 +52,7 @@ model calcHheat
         rotation=-90,
         origin={70,90})));
   TSupControl tSupControl
-    annotation (Placement(transformation(extent={{-64,-32},{-44,-12}})));
+    annotation (Placement(transformation(extent={{-76,-32},{-56,-12}})));
   calcVFlow calcVFlow1 annotation (Placement(transformation(
         extent={{-13,-14},{13,14}},
         rotation=-90,
@@ -61,6 +61,8 @@ model calcHheat
     annotation (Placement(transformation(extent={{42,-10},{22,10}})));
   calculation_MFlow calculation_MFlow1
     annotation (Placement(transformation(extent={{-24,-36},{0,-16}})));
+  pipeNetworkInertia pipeNetworkInertia1
+    annotation (Placement(transformation(extent={{-50,-32},{-30,-12}})));
 equation
   connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-66,100},{-66,72},
           {-17.26,72},{-17.26,59}},
@@ -82,24 +84,28 @@ equation
                                                    color={0,0,127}));
   connect(Hheat, Hheat)
     annotation (Line(points={{99,-37},{99,-37}}, color={0,0,127}));
-  connect(TDryBul, tSupControl.T_air) annotation (Line(points={{-100,20},{-72,20},
-          {-72,-22},{-64,-22}}, color={0,0,127}));
+  connect(TDryBul, tSupControl.T_air) annotation (Line(points={{-100,20},{-80,
+          20},{-80,-22},{-76,-22}},
+                                color={0,0,127}));
   connect(calcVFlow1.T_room, T_int) annotation (Line(points={{48.2,36},{48.2,66},
           {22,66},{22,100}}, color={0,0,127}));
   connect(T_int_setpoint, calcVFlow1.T_setpoint) annotation (Line(points={{70,100},
           {66,100},{66,36},{67.8,36}}, color={0,0,127}));
   connect(gain.u, calcVFlow1.VFlow_rel)
     annotation (Line(points={{44,0},{58,0},{58,10}}, color={0,0,127}));
-  connect(tSupControl.T_sup, calculation_MFlow1.T_sup)
-    annotation (Line(points={{-44,-22},{-22.8,-22}}, color={0,0,127}));
   connect(calculation_MFlow1.n_heater, CalcNheater.n_heater) annotation (Line(
         points={{-16.8,-17},{-16.8,12.5},{-17,12.5},{-17,41}}, color={0,0,127}));
   connect(calculation_MFlow1.T_int, T_int) annotation (Line(points={{-4.8,-17},{
           -4.8,34.5},{22,34.5},{22,100}}, color={0,0,127}));
   connect(calculation_MFlow1.Hheat, switch2.u1) annotation (Line(points={{-1.2,-22},
           {22,-22},{22,-30},{42,-30}}, color={0,0,127}));
-  connect(gain.y, calculation_MFlow1.mFlow) annotation (Line(points={{21,0},{-36,
-          0},{-36,-30},{-22.8,-30}}, color={0,0,127}));
+  connect(gain.y, calculation_MFlow1.mFlow) annotation (Line(points={{21,0},{
+          -26,0},{-26,-30},{-22.8,-30}},
+                                     color={0,0,127}));
+  connect(tSupControl.T_sup, pipeNetworkInertia1.T_sup_in) annotation (Line(
+        points={{-56,-22},{-54,-22},{-54,-22},{-50,-22}}, color={0,0,127}));
+  connect(pipeNetworkInertia1.T_sup_out, calculation_MFlow1.T_sup)
+    annotation (Line(points={{-30,-22},{-22.8,-22}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=3600, Interval=3600));
