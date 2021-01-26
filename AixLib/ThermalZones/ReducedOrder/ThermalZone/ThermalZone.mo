@@ -98,7 +98,7 @@ model ThermalZone "Thermal zone containing moisture balance"
     final wfGro=zoneParam.wfGro,
     final hConWallOut=zoneParam.hConWallOut,
     final hRad=zoneParam.hRadWall,
-    final use_sunblind=sum(zoneParam.ATransparent) > 0,
+ final use_sunblind=sum(zoneParam.ATransparent) > 0,
     final hConWinOut=zoneParam.hConWinOut,
     final aExt=zoneParam.aExt,
     final TGro=zoneParam.TSoil) if (sum(zoneParam.AExt) + sum(zoneParam.AWin)) > 0
@@ -392,6 +392,11 @@ public
     final til=zoneParam.tiltRoof)
     "Calculates diffuse solar radiation on titled surface for roof"
     annotation (Placement(transformation(extent={{-84,61},{-68,77}})));
+  Multizone.UKA.calcHheat calcHheat
+    annotation (Placement(transformation(extent={{136,52},{156,72}})));
+  Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
+      AWin=sum(zoneParam.AWin))
+    annotation (Placement(transformation(extent={{176,80},{156,100}})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
           80,-94},{78,-94},{78,-88},{48,-88},{48,-46.5},{56,-46.5}}, color={0,0,
@@ -680,6 +685,20 @@ equation
         color={0,0,127}));
   connect(humVolAirROM.y, airExcMoi.HumOut) annotation (Line(points={{-59.5,-50},
           {-4,-50},{-4,0},{-6,0},{-6,0.16},{-6.8,0.16}}, color={0,0,127}));
+  connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{
+          155,63.6},{166,63.6},{166,44},{72.34,44}}, color={0,0,127}));
+  connect(TAir, calcHheat.T_int) annotation (Line(points={{110,80},{150,80},{
+          150,72},{150.4,72},{150.4,71}}, color={0,0,127}));
+  connect(weaBus.TDryBul, calcHheat.T_air) annotation (Line(
+      points={{-100,34},{-102,34},{-102,104},{132,104},{132,66},{137,66}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(calcHheat.A_ext, exteriorWallinclWin.y) annotation (Line(points={{
+          145.8,71},{144,71},{144,90},{155,90}}, color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>November 20, 2020, by Katharina Breuer:<br>Combine thermal zone models</li>

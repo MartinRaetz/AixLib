@@ -58,6 +58,14 @@ partial model PartialHeaterCoolerPI
     Cooler_on))    "Power for cooling"
     annotation (Placement(transformation(extent={{80,-26},{120,14}}),
         iconTransformation(extent={{80,-26},{120,14}})));
+        Modelica.Blocks.Interfaces.RealInput CustomHeat
+         annotation (Placement(transformation(extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={0,100}),
+        iconTransformation(extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={-6,80})));
+
 equation
   connect(Heating.port, heatCoolRoom) annotation (Line(
         points={{6,12},{2,12},{2,-40},{90,-40}},
@@ -79,11 +87,12 @@ equation
       points={{-16,-11},{-16,-40},{90,-40}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(Heating.Q_flow, pITempHeat.y) annotation (Line(points={{26,12},{26,20},{-1,20}}, color={0,0,127}));
-  connect(Heating.Q_flow,heatingPower)
-    annotation (Line(points={{26,12},{26,40},{100,40}}, color={0,0,127}));
   connect(Cooling.Q_flow,coolingPower)  annotation (Line(points={{26,-12.5},{56,
           -12.5},{56,-6},{100,-6}}, color={0,0,127}));
+  connect(CustomHeat, Heating.Q_flow) annotation (Line(points={{0,100},{0,40},{
+          48,40},{48,12},{26,12}}, color={0,0,127}));
+  connect(CustomHeat, heatingPower)
+    annotation (Line(points={{0,100},{0,40},{100,40}}, color={0,0,127}));
   annotation (Documentation(info = "<html><h4>
   <span style=\"color:#008000\">Overview</span>
 </h4>
