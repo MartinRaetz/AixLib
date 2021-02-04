@@ -1,4 +1,4 @@
-within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
+within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model calcNheater
   "Calculates the number of heaters"
 
@@ -13,13 +13,13 @@ model calcNheater
         origin={0,100}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={-2,90})));
+        origin={0,90})));
 
  Modelica.Blocks.Interfaces.RealOutput n_heater
     "number of heaters"
     annotation (Placement(transformation(extent={{17,-17},{-17,17}},
         rotation=90,
-        origin={-1,-101}),
+        origin={1,-99}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={0,-90})));

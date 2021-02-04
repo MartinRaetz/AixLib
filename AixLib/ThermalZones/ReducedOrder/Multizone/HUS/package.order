@@ -1,11 +1,11 @@
 calcTsup
 calcNheater
-calculation_Tre
+calculation_Tre_Input
 calcHheat
-threshold
-Heating_Period
+threshold_heatingPeriod
+heatingPeriod
 ExteriorWallinclWin
 calcVFlow
 TSupControl
-calculation_MFlow
+calculation_MFlow_Input
 pipeNetworkInertia

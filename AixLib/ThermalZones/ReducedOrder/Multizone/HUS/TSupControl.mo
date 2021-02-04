@@ -1,10 +1,12 @@
-within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
+within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model TSupControl
 
   Modelica.Blocks.Interfaces.RealInput T_air(final unit="K")
-    annotation (Placement(transformation(extent={{-120,-20},{-80,20}})));
+    annotation (Placement(transformation(extent={{-100,-20},{-60,20}}),
+        iconTransformation(extent={{-100,-20},{-60,20}})));
   Modelica.Blocks.Interfaces.RealOutput T_sup( final unit="K")
-    annotation (Placement(transformation(extent={{82,-18},{118,18}})));
+    annotation (Placement(transformation(extent={{64,-18},{100,18}}),
+        iconTransformation(extent={{64,-18},{100,18}})));
   Modelica.Blocks.Tables.CombiTable1D combiTable1D(
     table=[-26,80; 0,50; 20,20],
     columns={2},

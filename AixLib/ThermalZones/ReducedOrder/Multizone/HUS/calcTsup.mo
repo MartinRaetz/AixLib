@@ -1,4 +1,4 @@
-within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
+within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model calcTsup
 
 Real m "slope";

@@ -1,14 +1,11 @@
-within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
+within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model ExteriorWallinclWin
   extends Modelica.Blocks.Sources.RealExpression(y=AExtinclWin);
-
 
 parameter Real AExt "exterior wall area excluding window";
 parameter Real AWin "Window area";
 
-
 Real AExtinclWin;
-
 
 equation
 

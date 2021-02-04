@@ -392,9 +392,9 @@ public
     final til=zoneParam.tiltRoof)
     "Calculates diffuse solar radiation on titled surface for roof"
     annotation (Placement(transformation(extent={{-84,61},{-68,77}})));
-  Multizone.UKA.calcHheat calcHheat
+  Multizone.HUS.calcHheat calcHheat
     annotation (Placement(transformation(extent={{140,52},{172,70}})));
-  Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
+  Multizone.HUS.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
     annotation (Placement(transformation(extent={{174,94},{154,114}})));
   Modelica.Blocks.Sources.Constant const(k=273.15 + 21)

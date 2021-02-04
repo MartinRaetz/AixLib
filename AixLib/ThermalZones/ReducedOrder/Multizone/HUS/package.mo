@@ -1,8 +1,8 @@
 within AixLib.ThermalZones.ReducedOrder.Multizone;
-package UKA
+package HUS
 
 
 
 
 
-end UKA;
+end HUS;
