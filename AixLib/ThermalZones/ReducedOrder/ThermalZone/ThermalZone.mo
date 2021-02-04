@@ -397,7 +397,7 @@ public
   Multizone.HUS.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
     annotation (Placement(transformation(extent={{174,94},{154,114}})));
-  Modelica.Blocks.Sources.Constant const(k=273.15 + 21)
+  Modelica.Blocks.Sources.Constant const(k=273.15 + 28)
     annotation (Placement(transformation(extent={{192,74},{172,94}})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
@@ -688,7 +688,7 @@ equation
   connect(humVolAirROM.y, airExcMoi.HumOut) annotation (Line(points={{-59.5,-50},
           {-4,-50},{-4,0},{-6,0},{-6,0.16},{-6.8,0.16}}, color={0,0,127}));
   connect(weaBus.TDryBul, calcHheat.TDryBul) annotation (Line(
-      points={{-100,34},{-102,34},{-102,104},{132,104},{132,62.8},{140,62.8}},
+      points={{-100,34},{-102,34},{-102,104},{132,104},{132,62.8},{141.6,62.8}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",

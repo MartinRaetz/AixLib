@@ -2,8 +2,8 @@ within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model threshold_heatingPeriod
 
   //parameter Real T_l(final unit="K") = 273.15 + 15 "Heating limit temperature"; //unused
-  parameter Real t_spring(final unit="s") = 13219140 "Heating time in spring. amount of seconds between 1.1.2020 and 1.6.2020";
-  parameter Real t_autumn(final unit="s") = 21167940 "Heating time in spring. amount of seconds between 1.1.2020 and 1.9.2020";
+  parameter Real t_spring(final unit="s") = 100000000 "Heating time in spring. amount of seconds between 1.1.2020 and 1.6.2020";
+  parameter Real t_autumn(final unit="s") = 100000000 "Heating time in spring. amount of seconds between 1.1.2020 and 1.9.2020";
 
     Modelica.Blocks.Interfaces.RealOutput Heating_period_spring(final unit="s")
     "Heating period in spring during which heater is turned on"
