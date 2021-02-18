@@ -2,7 +2,7 @@ within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model pipeNetworkInertia
 
   parameter Real T1(final unit="s") = 1000 "Time constant T1 for first order element";
-  parameter Real relativeTemperatureLoss( final unit="%") = 2 "relative temperature loss in pipe network";
+  parameter Real relativeTemperatureLoss = 2 "relative temperature loss in pipe network [in %]";
   parameter Real T_ambient( final unit="K") = 295.15 "ambient temperature for temperature losses";
   Modelica.Blocks.Interfaces.RealInput T_sup_in( final unit="K")
     annotation (Placement(transformation(extent={{-100,-20},{-60,20}}),
