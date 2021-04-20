@@ -395,7 +395,7 @@ public
   Multizone.HUS.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
     annotation (Placement(transformation(extent={{174,94},{154,114}})));
-  Modelica.Blocks.Sources.Constant const(k=273.15 + 28)
+  Modelica.Blocks.Sources.Constant T_set(k=273.15 + 28)
     annotation (Placement(transformation(extent={{192,74},{172,94}})));
   Multizone.HUS.calcHheat_Calibration calcHheat_Calibration
     annotation (Placement(transformation(extent={{130,50},{166,70}})));
@@ -687,7 +687,7 @@ equation
         color={0,0,127}));
   connect(humVolAirROM.y, airExcMoi.HumOut) annotation (Line(points={{-59.5,-50},
           {-4,-50},{-4,0},{-6,0},{-6,0.16},{-6.8,0.16}}, color={0,0,127}));
-  connect(calcHheat_Calibration.T_int_setpoint, const.y) annotation (Line(
+  connect(calcHheat_Calibration.T_int_setpoint,T_set. y) annotation (Line(
         points={{160.6,69},{160.6,84},{171,84}}, color={0,0,127}));
   connect(TAir, calcHheat_Calibration.T_int) annotation (Line(points={{110,80},
           {152,80},{152,69},{151.6,69}}, color={0,0,127}));
