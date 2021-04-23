@@ -36,7 +36,7 @@ protected
   Real x[dimension](min=0,max=1);
   parameter Real T = 10000;
   parameter Real TAirMax = 26+273.15;
-  parameter Real VFlowMax = 21.82;
+  parameter Real VFlowMax = 21;
 
 initial equation
    for n in 1:dimension loop

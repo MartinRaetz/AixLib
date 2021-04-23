@@ -322,7 +322,8 @@ equation
   end if;
 
   connect(zone.TAir, airFlowRate.TAir) annotation (Line(points={{67.4,82.5455},
-          {1.7,82.5455},{1.7,35.2},{-66,35.2}}, color={0,0,127}));
+          {66,82.5455},{66,94},{-66,94},{-66,35.2}},
+                                                color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
         Text(

@@ -61,7 +61,8 @@ model calcHheat
     annotation (Placement(transformation(extent={{42,-10},{22,10}})));
   calculation_MFlow_Input calculation_MFlow1
     annotation (Placement(transformation(extent={{-24,-36},{0,-16}})));
-  pipeNetworkInertia pipeNetworkInertia1
+  pipeNetworkInertia pipeNetworkInertia1(T1=17500.480673,
+      relativeTemperatureLoss=17.939052)
     annotation (Placement(transformation(extent={{-50,-32},{-30,-12}})));
 equation
   connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-66,100},{-66,72},

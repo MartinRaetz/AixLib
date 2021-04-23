@@ -397,7 +397,7 @@ public
   Multizone.HUS.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
     annotation (Placement(transformation(extent={{174,94},{154,114}})));
-  Modelica.Blocks.Sources.Constant const(k=273.15 + 28)
+  Modelica.Blocks.Sources.Constant const(k=273.15 + 24)
     annotation (Placement(transformation(extent={{192,74},{172,94}})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
