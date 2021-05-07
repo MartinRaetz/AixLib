@@ -1,7 +1,8 @@
 within AixLib.ThermalZones.ReducedOrder.Multizone;
 model MultizoneEquipped
   "Multizone model with ideal heater and cooler and AHU"
-  extends AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.PartialMultizone;
+  extends
+    AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.PartialMultizone;
 
   parameter Boolean heatAHU
     "Status of heating of AHU"
@@ -113,6 +114,8 @@ model MultizoneEquipped
   Modelica.Blocks.Interfaces.RealOutput CO2Con[size(zone, 1)] if use_C_flow
     "CO2 concentration in the thermal zone in ppm"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
+  SupplyTemperaurecontroller supplyTemperaurecontroller
+    annotation (Placement(transformation(extent={{-152,-8},{-132,12}})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)
     "Calculated zone factors";
@@ -220,11 +223,6 @@ equation
 
   end for;
 
-  connect(AHU[1], AirHandlingUnit.T_supplyAir) annotation (Line(
-      points={{-100,-31},{-100,-14},{-86,-14},{-86,2},{24,2},{24,19.75},{12.4,19.75}},
-      color={0,0,127},
-      smooth=Smooth.None));
-
   connect(airFlowRate.airFlow, AirHandlingUnit.Vflow_in) annotation (Line(
       points={{-58.8,28},{-58,28},{-58,21.25},{-50.6,21.25}},
       color={0,0,127},
@@ -319,6 +317,14 @@ equation
         color={0,0,127}));
   end if;
 
+  connect(TAir[1], supplyTemperaurecontroller.Tair) annotation (Line(points={{
+          110,81},{-172,81},{-172,8.2},{-156.2,8.2}}, color={0,0,127}));
+  connect(AHU[1], supplyTemperaurecontroller.SupplyTemperatureSetpoint)
+    annotation (Line(points={{-100,-31},{-140,-31},{-140,-18},{-176,-18},{-176,
+          -2.2},{-157.4,-2.2}}, color={0,0,127}));
+  connect(supplyTemperaurecontroller.AdjustedSupplyTemperature, AirHandlingUnit.T_supplyAir)
+    annotation (Line(points={{-133.8,2.4},{32,2.4},{32,19.75},{12.4,19.75}},
+        color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
         Text(
