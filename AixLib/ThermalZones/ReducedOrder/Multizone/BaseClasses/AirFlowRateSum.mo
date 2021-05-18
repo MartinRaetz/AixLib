@@ -10,6 +10,9 @@ block AirFlowRateSum
     radioButtons = true));
   parameter AixLib.DataBase.ThermalZones.ZoneBaseRecord zoneParam[dimension]
     "Records of zones";
+  parameter Real T = 10000;
+  parameter Real TAirMax = 26+273.15;
+  parameter Real VFlowMax = 21;
   Modelica.Blocks.Interfaces.RealInput profile
     "Input profile for AHU operation"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}}),
@@ -24,24 +27,54 @@ block AirFlowRateSum
     annotation (Placement(transformation(extent={{100,-20},{140,20}}),
     iconTransformation(extent={{100,-20},{140,20}})));
 
+  Modelica.Blocks.Interfaces.RealInput TAir[dimension] annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={0,120})));
+
 protected
   Real airFlowVector[dimension]
     "Sum of air flow in the zones";
+  Real x[dimension](min=0,max=1);
+
+
+initial equation
+   for n in 1:dimension loop
+      x[n] = 0;
+    end for;
 
 equation
   if withProfile then
     airFlowVector * 3600 = ((zoneParam.minAHU + (zoneParam.maxAHU -
     zoneParam.minAHU) * profile) .* zoneParam.AZone);
+    for n in 1:dimension loop
+      x[n] = 0;
+    end for;
+
   else
-    airFlowVector * 3600 = ((zoneParam.minAHU + (zoneParam.maxAHU -
-    zoneParam.minAHU) .* relOccupation) .* zoneParam.AZone);
+    for n in 1:dimension loop
+      if x[n] > 1 then
+        der(x[n])= min(0,(TAir[n] - TAirMax)/T);
+      elseif x[n] < 0 then
+          der(x[n])= max(0,(TAir[n] - TAirMax)/T);
+      else
+        der(x[n])= (TAir[n] - TAirMax)/T;
+      end if;
+    end for;
+
+    for n in 1:dimension loop
+      airFlowVector[n] * 3600 = max(zoneParam[n].minAHU *  zoneParam[n].AZone, (zoneParam[n].maxAHU * relOccupation[n] + x[n] * VFlowMax)  * zoneParam[n].AZone);
+    end for;
   end if;
   (airFlow) =
     AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.SumCondition(
     airFlowVector,
     zoneParam.withAHU,
     dimension);
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+    annotation (Placement(transformation(extent={{100,-80},{120,-60}})),
+                Placement(transformation(extent={{100,-82},{120,-62}})),
+              Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
           graphics={Text(

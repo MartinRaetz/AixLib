@@ -331,6 +331,8 @@ equation
           -166,46},{-162,46}}, color={0,0,127}));
   connect(add1.y, AirHandlingUnit.T_supplyAir) annotation (Line(points={{-139,
           52},{-112,52},{-112,19.75},{12.4,19.75}}, color={0,0,127}));
+  connect(airFlowRate.TAir, zone.TAir) annotation (Line(points={{-66,35.2},{-66,
+          50},{-8,50},{-8,92},{82,92},{82,85.9},{82.1,85.9}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
         Text(
