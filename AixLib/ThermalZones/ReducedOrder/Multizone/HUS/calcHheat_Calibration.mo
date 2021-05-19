@@ -68,10 +68,10 @@ model calcHheat_Calibration
     columns=2:3,
     fileName=Modelica.Utilities.Files.loadResource(
         "modelica://AixLib/Resources/LowOrder_ExampleData/Measurement data for validation HUS Triangle Floor 7.txt"),
-
     offset={273.15})
     "T_sup and T_re timeseries"
     annotation (Placement(transformation(extent={{-86,-30},{-70,-14}})));
+
 equation
   connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-66,100},{-66,72},
           {-20,72},{-20,57.1}},

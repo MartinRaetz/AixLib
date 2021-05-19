@@ -11,7 +11,6 @@ block AirFlowRateSum
   parameter AixLib.DataBase.ThermalZones.ZoneBaseRecord zoneParam[dimension]
     "Records of zones";
   parameter Real T = 10000;
-  parameter Real TAirMax = 26+273.15;
   parameter Real VFlowMax = 21;
   Modelica.Blocks.Interfaces.RealInput profile
     "Input profile for AHU operation"
@@ -31,8 +30,13 @@ block AirFlowRateSum
         transformation(
         extent={{-20,-20},{20,20}},
         rotation=-90,
-        origin={0,120})));
+        origin={60,120})));
 
+  Modelica.Blocks.Interfaces.RealInput TAirMax annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={-60,120})));
 protected
   Real airFlowVector[dimension]
     "Sum of air flow in the zones";

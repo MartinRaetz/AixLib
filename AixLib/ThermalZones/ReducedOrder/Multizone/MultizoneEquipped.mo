@@ -113,6 +113,10 @@ model MultizoneEquipped
   Modelica.Blocks.Interfaces.RealOutput CO2Con[size(zone, 1)] if use_C_flow
     "CO2 concentration in the thermal zone in ppm"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
+  HUS.ComfortTemperatureControl comfortTemperatureControl(constantTemperature(
+        displayUnit="K") = 297.65, comfortFunctionTable=[-15,22.5; 0,22.5; 15,
+        25; 25,25])
+    annotation (Placement(transformation(extent={{-94,38},{-82,50}})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)
     "Calculated zone factors";
@@ -322,8 +326,19 @@ equation
   end if;
 
   connect(zone.TAir, airFlowRate.TAir) annotation (Line(points={{67.4,82.5455},
-          {66,82.5455},{66,94},{-66,94},{-66,35.2}},
+          {66,82.5455},{66,94},{-62.4,94},{-62.4,35.2}},
                                                 color={0,0,127}));
+  connect(comfortTemperatureControl.T_ComfortBoundary, airFlowRate.TAirMax)
+    annotation (Line(points={{-82.12,44},{-70,44},{-70,36},{-69.6,36},{-69.6,
+          35.2}}, color={0,0,127}));
+  connect(weaBus.TDryBul, comfortTemperatureControl.TDryBull) annotation (Line(
+      points={{-100,69},{-98,69},{-98,44},{-94,44}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
         Text(
