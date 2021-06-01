@@ -114,8 +114,21 @@ model MultizoneEquipped
   Modelica.Blocks.Interfaces.RealOutput CO2Con[size(zone, 1)] if use_C_flow
     "CO2 concentration in the thermal zone in ppm"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
-  SupplyTemperaurecontroller supplyTemperaurecontroller
-    annotation (Placement(transformation(extent={{-152,-8},{-132,12}})));
+  SupplyTemperatureControllerWithConstantSetpoint
+    supplyTemperatureControllerWithConstantSetpoint
+    annotation (Placement(transformation(extent={{-136,38},{-116,58}})));
+  ComfortTemperatureControl comfortTemperatureControl(constantTemperature=
+        297.15, comfortFunctionTable=[-15,22.5; 0,22.5; 15,25; 25,25])
+    annotation (Placement(transformation(extent={{-176,-10},{-156,10}})));
+  ComfortTemperatureControl comfortTemperatureControl1(constantTemperature=
+        295.15, comfortFunctionTable=[-15,20.5; 0,20.5; 17,22; 25,22])
+    annotation (Placement(transformation(extent={{-176,-38},{-156,-18}})));
+  ComfortTemperatureControl comfortTemperatureControl2(constantTemperature=
+        296.15, comfortFunctionTable=[-15,21.5; 0,21.5; 20,24.5; 25,24.5])
+    annotation (Placement(transformation(extent={{-176,-66},{-156,-46}})));
+  ComfortTemperatureControl comfortTemperatureControl3(constantTemperature=
+        298.15, comfortFunctionTable=[-15,23; 0,23; 20,27; 25,27])
+    annotation (Placement(transformation(extent={{-174,78},{-154,98}})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)
     "Calculated zone factors";
@@ -317,14 +330,60 @@ equation
         color={0,0,127}));
   end if;
 
-  connect(TAir[1], supplyTemperaurecontroller.Tair) annotation (Line(points={{
-          110,81},{-172,81},{-172,8.2},{-156.2,8.2}}, color={0,0,127}));
-  connect(AHU[1], supplyTemperaurecontroller.SupplyTemperatureSetpoint)
-    annotation (Line(points={{-100,-31},{-140,-31},{-140,-18},{-176,-18},{-176,
-          -2.2},{-157.4,-2.2}}, color={0,0,127}));
-  connect(supplyTemperaurecontroller.AdjustedSupplyTemperature, AirHandlingUnit.T_supplyAir)
-    annotation (Line(points={{-133.8,2.4},{32,2.4},{32,19.75},{12.4,19.75}},
+  connect(supplyTemperatureControllerWithConstantSetpoint.AdjustedSupplyTemperature,
+    AirHandlingUnit.T_supplyAir) annotation (Line(points={{-117.8,48.4},{32,
+          48.4},{32,19.75},{12.4,19.75}}, color={0,0,127}));
+  connect(TAir[1], supplyTemperatureControllerWithConstantSetpoint.Tair)
+    annotation (Line(points={{110,81},{-146,81},{-146,54.2},{-140.2,54.2}},
         color={0,0,127}));
+  connect(comfortTemperatureControl.T_ComfortBoundary,
+    supplyTemperatureControllerWithConstantSetpoint.UpperLimit) annotation (
+      Line(points={{-156.2,0},{-150,0},{-150,49.6},{-140.4,49.6}}, color={0,0,
+          127}));
+  connect(comfortTemperatureControl1.T_ComfortBoundary,
+    supplyTemperatureControllerWithConstantSetpoint.LowerLimit) annotation (
+      Line(points={{-156.2,-28},{-146,-28},{-146,45.2},{-140.4,45.2}}, color={0,
+          0,127}));
+  connect(supplyTemperatureControllerWithConstantSetpoint.SetPoint,
+    comfortTemperatureControl2.T_ComfortBoundary) annotation (Line(points={{
+          -140.4,40.4},{-140.4,-56},{-156.2,-56}}, color={0,0,127}));
+  connect(weaBus.TDryBul, comfortTemperatureControl.TDryBull) annotation (Line(
+      points={{-100,69},{-184,69},{-184,0},{-176,0}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(weaBus.TDryBul, comfortTemperatureControl1.TDryBull) annotation (Line(
+      points={{-100,69},{-184,69},{-184,-28},{-176,-28}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(weaBus.TDryBul, comfortTemperatureControl2.TDryBull) annotation (Line(
+      points={{-100,69},{-184,69},{-184,-56},{-176,-56}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(comfortTemperatureControl3.T_ComfortBoundary, airFlowRate.TAirMax)
+    annotation (Line(points={{-154.2,88},{-112,88},{-112,94},{-68.4,94},{-68.4,
+          35.2}}, color={0,0,127}));
+  connect(weaBus.TDryBul, comfortTemperatureControl3.TDryBull) annotation (Line(
+      points={{-100,69},{-184,69},{-184,88},{-174,88}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(TAir[1], airFlowRate.TAir[1]) annotation (Line(points={{110,81},{
+          -63.6,81},{-63.6,35.2}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={
         Text(

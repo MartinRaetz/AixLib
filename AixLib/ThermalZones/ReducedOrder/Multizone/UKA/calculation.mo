@@ -2,15 +2,17 @@ within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
 model calculation
 
   parameter Real specificHeatFlowfactor( final unit="W/(K.m2)")=17.21 "empirical factor for heat flux calculation";
+  Real   Q;
+
 
    Modelica.Blocks.Interfaces.RealInput T_int(final unit="K")
     "Inside air temperature"
  annotation (Placement(transformation(extent={{-17,-17},{17,17}},
         rotation=-90,
-        origin={61,99}),
+        origin={-1,99}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=-90,
-        origin={44,90})));
+        origin={20,90})));
 
    Modelica.Blocks.Interfaces.RealInput T_sup(final unit="K")
     "supply temperature"
@@ -37,9 +39,27 @@ model calculation
         rotation=0,
         origin={90,16})));
 
+  Modelica.Blocks.Interfaces.RealInput UpperLimitHeat annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={64,100})));
+  Modelica.Blocks.Interfaces.RealInput LowerLimitHeat annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=180,
+        origin={100,60})));
 equation
 
-  Hheat = (T_sup - T_int)*A_heat*specificHeatFlowfactor;
+  if T_int < LowerLimitHeat then
+    Q = 1;
+  elseif T_int > UpperLimitHeat then
+      Q = 0;
+    else
+      Q = (1/(LowerLimitHeat - UpperLimitHeat))*(T_int - LowerLimitHeat)+1;
+
+  end if;
+  Hheat = Q * (T_sup - T_int)*A_heat*specificHeatFlowfactor;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));

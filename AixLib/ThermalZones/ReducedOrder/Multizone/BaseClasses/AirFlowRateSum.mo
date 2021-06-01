@@ -10,6 +10,10 @@ block AirFlowRateSum
     radioButtons = true));
   parameter AixLib.DataBase.ThermalZones.ZoneBaseRecord zoneParam[dimension]
     "Records of zones";
+  parameter Real T = 10000;
+  parameter Real TAirMin = 20+273.15;
+  parameter Real VFlowMax = 40;
+
   Modelica.Blocks.Interfaces.RealInput profile
     "Input profile for AHU operation"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}}),
@@ -24,17 +28,74 @@ block AirFlowRateSum
     annotation (Placement(transformation(extent={{100,-20},{140,20}}),
     iconTransformation(extent={{100,-20},{140,20}})));
 
+  Modelica.Blocks.Interfaces.RealInput TAir[dimension] annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={40,120})));
+
+  Modelica.Blocks.Interfaces.RealInput TAirMax annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=-90,
+        origin={-40,120})));
 protected
   Real airFlowVector[dimension]
     "Sum of air flow in the zones";
+
+  Real x[dimension](min=0,max=1);
+  Real y[dimension](min=0,max=1);
+
+initial equation
+   for n in 1:dimension loop
+      x[n] = 0;
+    end for;
+
+initial equation
+   for m in 1:dimension loop
+      y[m] = 0;
+    end for;
+
 
 equation
   if withProfile then
     airFlowVector * 3600 = ((zoneParam.minAHU + (zoneParam.maxAHU -
     zoneParam.minAHU) * profile) .* zoneParam.AZone);
+
+   for n in 1:dimension loop
+      x[n] = 0;
+   end for;
+
+   for m in 1:dimension loop
+      y[m] = 0;
+   end for;
+
   else
+    for n in 1:dimension loop
+      if x[n] > 1 then
+        der(x[n])= min(0,(TAir[n] - TAirMax)/T);
+
+      elseif x[n] < 0 then
+          der(x[n])= max(0,(TAir[n] - TAirMax)/T);
+      else
+        der(x[n])= (TAir[n] - TAirMax)/T;
+      end if;
+    end for;
+
+   for m in 1:dimension loop
+      if y[m] > 1 then
+        der(y[m])= min(0,(TAirMin - TAir[m])/T);
+
+      elseif y[m] < 0 then
+          der(y[m])= max(0,(TAirMin - TAir[m])/T);
+      else
+        der(y[m])= (TAirMin - TAir[m])/T;
+      end if;
+   end for;
+
+
     airFlowVector * 3600 = ((zoneParam.minAHU + (zoneParam.maxAHU -
-    zoneParam.minAHU) .* relOccupation) .* zoneParam.AZone);
+    zoneParam.minAHU) .* relOccupation+ (x .* VFlowMax + y .* VFlowMax)) .* zoneParam.AZone);
   end if;
   (airFlow) =
     AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.SumCondition(
