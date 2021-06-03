@@ -1,4 +1,4 @@
-within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
+﻿within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
 model ComfortTemperatureControl
   Modelica.Blocks.Interfaces.RealInput TDryBull(final unit="K")
     annotation (Placement(transformation(extent={{-120,-20},{-80,20}}),

@@ -148,7 +148,7 @@ protected
     annotation (Placement(transformation(extent={{30,-33},{20,-23}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.AirFlowRateSplit airFlowRateSplit(
     final dimension=numZones,
-    withProfile=true,
+    withProfile=false,
     final zoneParam=zoneParam) if ASurTot > 0 or VAir > 0
     "Post-processor for AHU outputs"
     annotation (Placement(transformation(
@@ -173,7 +173,7 @@ protected
     annotation (Placement(transformation(extent={{42,-32},{34,-24}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.AirFlowRateSum airFlowRate(
     final dimension=numZones,
-    withProfile=true,
+    withProfile=false,
     final zoneParam=zoneParam)
     "Pre-processor for AHU inputs"
     annotation (Placement(transformation(extent={{-72,22},{-60,34}})));

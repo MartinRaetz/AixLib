@@ -94,8 +94,10 @@ equation
    end for;
 
 
-    airFlowVector * 3600 = ((zoneParam.minAHU + (zoneParam.maxAHU -
-    zoneParam.minAHU) .* relOccupation+ (x .* VFlowMax + y .* VFlowMax)) .* zoneParam.AZone);
+    for n in 1:dimension loop
+      airFlowVector[n] * 3600 = max(zoneParam[n].minAHU * zoneParam[n].AZone,  (zoneParam[n].maxAHU * relOccupation[n] + x[n] * VFlowMax + y[n] * VFlowMax)* zoneParam[n].AZone);
+    end for;
+
   end if;
   (airFlow) =
     AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.SumCondition(

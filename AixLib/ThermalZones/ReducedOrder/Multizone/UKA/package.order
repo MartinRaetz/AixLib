@@ -5,3 +5,5 @@ calcHheat
 threshold
 Heating_Period
 ExteriorWallinclWin
+SupplyTemperatureControllerWithConstantSetpoint
+ComfortTemperatureControl

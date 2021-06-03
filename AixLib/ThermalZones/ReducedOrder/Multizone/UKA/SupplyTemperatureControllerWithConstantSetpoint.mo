@@ -1,4 +1,4 @@
-within ;
+within AixLib.ThermalZones.ReducedOrder.Multizone.UKA;
 model SupplyTemperatureControllerWithConstantSetpoint
   Modelica.Blocks.Continuous.LimPID PID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -44,6 +44,5 @@ equation
           -77,-38},{-10,-38}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
-    Diagram(coordinateSystem(preserveAspectRatio=false)),
-    uses(Modelica(version="3.2.3")));
+    Diagram(coordinateSystem(preserveAspectRatio=false)));
 end SupplyTemperatureControllerWithConstantSetpoint;
