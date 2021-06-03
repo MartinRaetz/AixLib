@@ -114,19 +114,22 @@ model MultizoneEquipped
   Modelica.Blocks.Interfaces.RealOutput CO2Con[size(zone, 1)] if use_C_flow
     "CO2 concentration in the thermal zone in ppm"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
-  SupplyTemperatureControllerWithConstantSetpoint
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.SupplyTemperatureControllerWithConstantSetpoint
     supplyTemperatureControllerWithConstantSetpoint
     annotation (Placement(transformation(extent={{-136,38},{-116,58}})));
-  ComfortTemperatureControl comfortTemperatureControl(constantTemperature=
-        297.15, comfortFunctionTable=[-15,22.5; 0,22.5; 15,25; 25,25])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl(
+      constantTemperature=297.15,
+                comfortFunctionTable=[-15,22.5; 0,22.5; 15,25; 25,25])
     annotation (Placement(transformation(extent={{-176,-10},{-156,10}})));
-  ComfortTemperatureControl comfortTemperatureControl1(constantTemperature=
-        295.15, comfortFunctionTable=[-15,20.5; 0,20.5; 17,22; 25,22])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl1(
+      constantTemperature=295.15,
+                comfortFunctionTable=[-15,20.5; 0,20.5; 17,22; 25,22])
     annotation (Placement(transformation(extent={{-176,-38},{-156,-18}})));
-  ComfortTemperatureControl comfortTemperatureControl2(constantTemperature=
-        296.15, comfortFunctionTable=[-15,21.5; 0,21.5; 20,24.5; 25,24.5])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl2(
+      constantTemperature=296.15,
+                comfortFunctionTable=[-15,21.5; 0,21.5; 20,24.5; 25,24.5])
     annotation (Placement(transformation(extent={{-176,-66},{-156,-46}})));
-  ComfortTemperatureControl comfortTemperatureControl3(constantTemperature=
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl3(constantTemperature=
         298.15, comfortFunctionTable=[-15,23; 0,23; 20,27; 25,27])
     annotation (Placement(transformation(extent={{-174,78},{-154,98}})));
 protected
