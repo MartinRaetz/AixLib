@@ -68,13 +68,21 @@ model calcHheat_Calibration
     columns=2:3,
     fileName=Modelica.Utilities.Files.loadResource(
         "modelica://AixLib/Resources/LowOrder_ExampleData/Measurement data for validation HUS Triangle Floor 7.txt"),
-
     offset={273.15})
     "T_sup and T_re timeseries"
     annotation (Placement(transformation(extent={{-86,-30},{-70,-14}})));
+
+ Modelica.Blocks.Interfaces.RealInput AZone(final unit="m2") "Zone Area"
+    annotation (Placement(transformation(
+        extent={{-18,-18},{18,18}},
+        rotation=-90,
+        origin={-20,100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-20,90})));
 equation
   connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-66,100},{-66,72},
-          {-20,72},{-20,57.1}},
+          {-27.2,72},{-27.2,57.1}},
                           color={0,0,127}));
   connect(switch2.y, Hheat) annotation (Line(points={{67,-30},{98,-30}},
                                      color={0,0,127}));
@@ -114,6 +122,8 @@ equation
                                                      color={0,0,127}));
   connect(table_TFlow.y[1], pipeNetworkInertia1.T_sup_in)
     annotation (Line(points={{-69.2,-22},{-48,-22}}, color={0,0,127}));
+  connect(AZone, CalcNheater.AZone) annotation (Line(points={{-20,100},{-20,76},
+          {-14,76},{-14,57.1},{-12.8,57.1}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=3600, Interval=3600));

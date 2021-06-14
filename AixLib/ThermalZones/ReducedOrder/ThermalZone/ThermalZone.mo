@@ -399,6 +399,8 @@ public
     annotation (Placement(transformation(extent={{192,74},{172,94}})));
   Multizone.HUS.calcHheat_Calibration calcHheat_Calibration
     annotation (Placement(transformation(extent={{130,50},{166,70}})));
+  Modelica.Blocks.Sources.RealExpression ZoneArea(y=sum(zoneParam.AZone))
+    annotation (Placement(transformation(extent={{170,80},{150,100}})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
           80,-94},{78,-94},{78,-88},{48,-88},{48,-46.5},{56,-46.5}}, color={0,0,
@@ -704,6 +706,8 @@ equation
   connect(heaterCooler.CustomHeat, calcHheat_Calibration.Hheat) annotation (
       Line(points={{72.34,44},{72,44},{72,48},{184,48},{184,62},{164.2,62}},
         color={0,0,127}));
+  connect(ZoneArea.y, calcHheat_Calibration.AZone) annotation (Line(points={{
+          149,90},{144.4,90},{144.4,69}}, color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>November 20, 2020, by Katharina Breuer:<br>Combine thermal zone models</li>
