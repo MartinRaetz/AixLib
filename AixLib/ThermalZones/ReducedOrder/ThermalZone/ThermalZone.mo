@@ -396,11 +396,13 @@ public
     annotation (Placement(transformation(extent={{140,52},{172,70}})));
   Multizone.HUS.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
-    annotation (Placement(transformation(extent={{174,94},{154,114}})));
+    annotation (Placement(transformation(extent={{176,94},{156,114}})));
   Multizone.HUS.ComfortTemperatureControl comfortTemperatureControl(
       constantTemperature(displayUnit="K") = 301.15, comfortFunctionTable=[-15,
         20.5; 0,20.5; 17,22; 25,22])
     annotation (Placement(transformation(extent={{146,16},{162,32}})));
+  Modelica.Blocks.Sources.RealExpression ZoneArea(y=sum(zoneParam.AZone))
+    annotation (Placement(transformation(extent={{176,78},{156,98}})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
           80,-94},{78,-94},{78,-88},{48,-88},{48,-46.5},{56,-46.5}}, color={0,0,
@@ -698,7 +700,7 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(calcHheat.A_ext, exteriorWallinclWin.y) annotation (Line(points={{146.4,
-          69.1},{146.4,104},{153,104}},          color={0,0,127}));
+          69.1},{146.4,104},{155,104}},          color={0,0,127}));
   connect(calcHheat.Hheat, heaterCooler.CustomHeat) annotation (Line(points={{170.4,
           62.8},{188,62.8},{188,46},{72,46},{72,44},{72.34,44}},     color={0,0,
           127}));
@@ -715,6 +717,8 @@ equation
   connect(comfortTemperatureControl.T_ComfortBoundary, calcHheat.T_int_setpoint)
     annotation (Line(points={{161.84,24},{194,24},{194,80},{168,80},{168,70},{
           167.2,70},{167.2,69.1}}, color={0,0,127}));
+  connect(ZoneArea.y, calcHheat.AZone) annotation (Line(points={{155,88},{154,
+          88},{154,69.1},{152.8,69.1}}, color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>November 20, 2020, by Katharina Breuer:<br>Combine thermal zone models</li>

@@ -64,9 +64,18 @@ model calcHheat
   pipeNetworkInertia pipeNetworkInertia1(T1=17500.480673,
       relativeTemperatureLoss=17.939052)
     annotation (Placement(transformation(extent={{-50,-32},{-30,-12}})));
+
+ Modelica.Blocks.Interfaces.RealInput AZone(final unit="m2") "Zone Area"
+    annotation (Placement(transformation(
+        extent={{-18,-18},{18,18}},
+        rotation=-90,
+        origin={-12,100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-20,90})));
 equation
   connect(A_ext, CalcNheater.A_ext) annotation (Line(points={{-66,100},{-66,72},
-          {-20,72},{-20,57.1}},
+          {-27.2,72},{-27.2,57.1}},
                           color={0,0,127}));
   connect(switch2.y, Hheat) annotation (Line(points={{67,-30},{98,-30}},
                                      color={0,0,127}));
@@ -110,6 +119,8 @@ equation
   connect(pipeNetworkInertia1.T_sup_out, calculation_MFlow1.T_sup)
     annotation (Line(points={{-31.8,-22},{-22.8,-22}},
                                                      color={0,0,127}));
+  connect(AZone, CalcNheater.AZone) annotation (Line(points={{-12,100},{-12,
+          57.1},{-12.8,57.1}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(StopTime=3600, Interval=3600));
