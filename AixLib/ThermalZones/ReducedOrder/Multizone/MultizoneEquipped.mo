@@ -1,7 +1,8 @@
 within AixLib.ThermalZones.ReducedOrder.Multizone;
 model MultizoneEquipped
   "Multizone model with ideal heater and cooler and AHU"
-  extends AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.PartialMultizone;
+  extends
+    AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.PartialMultizone;
 
   parameter Boolean heatAHU
     "Status of heating of AHU"
@@ -161,7 +162,7 @@ protected
     annotation (Placement(transformation(extent={{42,-32},{34,-24}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.BaseClasses.AirFlowRateSum airFlowRate(
     final dimension=numZones,
-    withProfile=false,
+    controlMode=2,
     final zoneParam=zoneParam)
     "Pre-processor for AHU inputs"
     annotation (Placement(transformation(extent={{-72,22},{-60,34}})));
@@ -213,8 +214,11 @@ initial algorithm
 equation
   for i in 1:numZones loop
     connect(intGains[(i*3) - 2], airFlowRate.relOccupation[i]) annotation (Line(
-        points={{76,-100},{74,-100},{74,-42},{-78,-42},{-78,26},{-73.2,26},{
-            -73.2,25.6}},
+        points={{76,-100},{74,-100},{74,-40},{-78,-40},{-78,28},{-73.2,28}},
+        color={0,0,127},
+        smooth=Smooth.None));
+    connect(intGains[(i*3) - 1], airFlowRate.occupancyState[i]) annotation (Line(
+        points={{76,-100},{74,-100},{74,-40},{-78,-40},{-78,24.04},{-73.2,24.04}},
         color={0,0,127},
         smooth=Smooth.None));
     connect(intGains[(i*3) - 2], airFlowRateSplit.relOccupation[i]) annotation (
@@ -234,7 +238,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(AHU[4], airFlowRate.profile) annotation (Line(
-      points={{-100,-1},{-100,-16},{-86,-16},{-86,30},{-73.2,30},{-73.2,30.4}},
+      points={{-100,-1},{-100,-16},{-86,-16},{-86,32},{-73.2,32},{-73.2,31.72}},
       color={0,0,127},
       smooth=Smooth.None));
 

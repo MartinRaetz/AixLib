@@ -4,23 +4,24 @@ block AirFlowRateSum
   extends Modelica.Blocks.Icons.Block;
 
   parameter Integer dimension "Number of Zones";
-  parameter Boolean withProfile = false
+  parameter Real controlMode = 0
     "Profile or occupancy as control value for AHU" annotation(choices(
-    choice =  false "Relative Occupation",choice = true "Profile",
+    choice =  1 "Relative Occupation",choice = 0 "Profile",choice = 2 "Occupancy State",
     radioButtons = true));
   parameter AixLib.DataBase.ThermalZones.ZoneBaseRecord zoneParam[dimension]
     "Records of zones";
   parameter Real T = 10000;
   parameter Real VFlowMax = 21;
+  parameter Real maxACH = 12;
   Modelica.Blocks.Interfaces.RealInput profile
     "Input profile for AHU operation"
-    annotation (Placement(transformation(extent={{-140,20},{-100,60}}),
-    iconTransformation(extent={{-140,20},{-100,60}})));
+    annotation (Placement(transformation(extent={{-140,42},{-100,82}}),
+    iconTransformation(extent={{-140,42},{-100,82}})));
   Modelica.Blocks.Interfaces.RealInput relOccupation[dimension]
     "Input for relative occupation"
     annotation (
-    Placement(transformation(extent={{-140,-60},{-100,-20}}),
-    iconTransformation(extent={{-140,-60},{-100,-20}})));
+    Placement(transformation(extent={{-140,-20},{-100,20}}),
+    iconTransformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput airFlow(final quantity="VolumeFlowRate",
     final unit="m3/s") "Air flow rate"
     annotation (Placement(transformation(extent={{100,-20},{140,20}}),
@@ -37,6 +38,11 @@ block AirFlowRateSum
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={-60,120})));
+  Modelica.Blocks.Interfaces.RealInput occupancyState[dimension]
+                                                                "Input for occupancy state"
+    annotation (
+    Placement(transformation(extent={{-140,-86},{-100,-46}}),
+    iconTransformation(extent={{-140,-86},{-100,-46}})));
 protected
   Real airFlowVector[dimension]
     "Sum of air flow in the zones";
@@ -49,7 +55,7 @@ initial equation
     end for;
 
 equation
-  if withProfile then
+  if controlMode == 0 then
     airFlowVector * 3600 = ((zoneParam.minAHU + (zoneParam.maxAHU -
     zoneParam.minAHU) * profile) .* zoneParam.AZone);
     for n in 1:dimension loop
@@ -68,7 +74,11 @@ equation
     end for;
 
     for n in 1:dimension loop
-      airFlowVector[n] * 3600 = max(zoneParam[n].minAHU *  zoneParam[n].AZone, (zoneParam[n].maxAHU * relOccupation[n] + x[n] * VFlowMax)  * zoneParam[n].AZone);
+      if controlMode == 1 then
+        airFlowVector[n] * 3600 = min(maxACH * zoneParam[n].VAir, max(zoneParam[n].minAHU *  zoneParam[n].AZone, (zoneParam[n].maxAHU * relOccupation[n] + x[n] * VFlowMax)  * zoneParam[n].AZone));
+      else
+        airFlowVector[n] * 3600 = min(maxACH * zoneParam[n].VAir, max(zoneParam[n].minAHU *  zoneParam[n].AZone, (zoneParam[n].maxAHU * occupancyState[n] + x[n] * VFlowMax)  * zoneParam[n].AZone));
+      end if;
     end for;
   end if;
   (airFlow) =

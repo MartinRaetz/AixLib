@@ -50,7 +50,13 @@ model calculation_MFlow_Input "Calculates heating power"
             {100,-30}})));
 equation
 
-  deltaT_lnBetrieb = max(0.1,(T_sup-T_re)/Modelica.Math.log(max((T_sup-T_int)/(T_re-T_int),0.1)));
+  // Fail-Save condition to prevent a mathematical error in the log function
+
+  if noEvent(T_int < T_re and T_re < T_sup and mFlow > 0.0002) then
+    deltaT_lnBetrieb = (T_sup-T_re)/Modelica.Math.log((T_sup-T_int)/(T_re-T_int));
+  else
+    deltaT_lnBetrieb = 0;
+  end if;
 
   Hheat = n_heater*Q_Norm*(deltaT_lnBetrieb/deltaT_Norm)^n;
 
