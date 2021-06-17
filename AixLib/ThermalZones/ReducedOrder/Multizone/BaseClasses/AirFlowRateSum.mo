@@ -11,7 +11,7 @@ block AirFlowRateSum
   parameter AixLib.DataBase.ThermalZones.ZoneBaseRecord zoneParam[dimension]
     "Records of zones";
   parameter Real T = 10000;
-  parameter Real TAirMin = 20+273.15;
+  parameter Real TAirMin = 22+273.15;
   parameter Real VFlowMax = 40;
 
   Modelica.Blocks.Interfaces.RealInput profile

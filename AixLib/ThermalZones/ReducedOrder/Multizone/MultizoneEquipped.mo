@@ -117,20 +117,25 @@ model MultizoneEquipped
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.SupplyTemperatureControllerWithConstantSetpoint
     supplyTemperatureControllerWithConstantSetpoint
     annotation (Placement(transformation(extent={{-136,38},{-116,58}})));
-  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl(
-      constantTemperature=297.15,
-                comfortFunctionTable=[-15,22.5; 0,22.5; 15,25; 25,25])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControlUpperSupplyAir(
+    useConstantTemperature=true,
+    constantTemperature=297.15,
+    comfortFunctionTable=[-15,22.5; 0,22.5; 15,25; 25,25])
     annotation (Placement(transformation(extent={{-176,-10},{-156,10}})));
-  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl1(
-      constantTemperature=295.15,
-                comfortFunctionTable=[-15,20.5; 0,20.5; 17,22; 25,22])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControlLowerSupplyAir(
+    useConstantTemperature=true,
+    constantTemperature=296.15,
+    comfortFunctionTable=[-15,20.5; 0,20.5; 17,22; 25,22])
     annotation (Placement(transformation(extent={{-176,-38},{-156,-18}})));
-  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl2(
-      constantTemperature=296.15,
-                comfortFunctionTable=[-15,21.5; 0,21.5; 20,24.5; 25,24.5])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControlSetPointSupplyAir(
+    useConstantTemperature=true,
+    constantTemperature=296.65,
+    comfortFunctionTable=[-15,21.5; 0,21.5; 20,24.5; 25,24.5])
     annotation (Placement(transformation(extent={{-176,-66},{-156,-46}})));
-  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl3(constantTemperature=
-        298.15, comfortFunctionTable=[-15,23; 0,23; 20,27; 25,27])
+  AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControl3(
+    useConstantTemperature=true,
+    constantTemperature=299.15,
+                comfortFunctionTable=[-15,23; 0,23; 20,27; 25,27])
     annotation (Placement(transformation(extent={{-174,78},{-154,98}})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)
@@ -339,18 +344,19 @@ equation
   connect(TAir[1], supplyTemperatureControllerWithConstantSetpoint.Tair)
     annotation (Line(points={{110,81},{-146,81},{-146,54.2},{-140.2,54.2}},
         color={0,0,127}));
-  connect(comfortTemperatureControl.T_ComfortBoundary,
+  connect(comfortTemperatureControlUpperSupplyAir.T_ComfortBoundary,
     supplyTemperatureControllerWithConstantSetpoint.UpperLimit) annotation (
       Line(points={{-156.2,0},{-150,0},{-150,49.6},{-140.4,49.6}}, color={0,0,
           127}));
-  connect(comfortTemperatureControl1.T_ComfortBoundary,
+  connect(comfortTemperatureControlLowerSupplyAir.T_ComfortBoundary,
     supplyTemperatureControllerWithConstantSetpoint.LowerLimit) annotation (
       Line(points={{-156.2,-28},{-146,-28},{-146,45.2},{-140.4,45.2}}, color={0,
           0,127}));
   connect(supplyTemperatureControllerWithConstantSetpoint.SetPoint,
-    comfortTemperatureControl2.T_ComfortBoundary) annotation (Line(points={{
-          -140.4,40.4},{-140.4,-56},{-156.2,-56}}, color={0,0,127}));
-  connect(weaBus.TDryBul, comfortTemperatureControl.TDryBull) annotation (Line(
+    comfortTemperatureControlSetPointSupplyAir.T_ComfortBoundary) annotation (
+      Line(points={{-140.4,40.4},{-140.4,-56},{-156.2,-56}}, color={0,0,127}));
+  connect(weaBus.TDryBul, comfortTemperatureControlUpperSupplyAir.TDryBull)
+    annotation (Line(
       points={{-100,69},{-184,69},{-184,0},{-176,0}},
       color={255,204,51},
       thickness=0.5), Text(
@@ -358,7 +364,8 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.TDryBul, comfortTemperatureControl1.TDryBull) annotation (Line(
+  connect(weaBus.TDryBul, comfortTemperatureControlLowerSupplyAir.TDryBull)
+    annotation (Line(
       points={{-100,69},{-184,69},{-184,-28},{-176,-28}},
       color={255,204,51},
       thickness=0.5), Text(
@@ -366,7 +373,8 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus.TDryBul, comfortTemperatureControl2.TDryBull) annotation (Line(
+  connect(weaBus.TDryBul, comfortTemperatureControlSetPointSupplyAir.TDryBull)
+    annotation (Line(
       points={{-100,69},{-184,69},{-184,-56},{-176,-56}},
       color={255,204,51},
       thickness=0.5), Text(

@@ -4,14 +4,15 @@ model SupplyTemperatureControllerWithConstantSetpoint
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=1,
     Ti=3600,
-    yMax=5,
+    yMax=4.5,
     yMin=0) annotation (Placement(transformation(extent={{-70,0},{-50,20}})));
   Modelica.Blocks.Continuous.LimPID PID1(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=1,
     Ti=3600,
     yMax=0,
-    yMin=-7) "Extra Cooling"
+    yMin=-5.5)
+             "Extra Cooling"
     annotation (Placement(transformation(extent={{-72,62},{-52,82}})));
   Modelica.Blocks.Math.Add3 add3_1
     annotation (Placement(transformation(extent={{-8,-56},{12,-36}})));
