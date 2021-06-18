@@ -48,7 +48,7 @@ model calcHheat
     annotation (Placement(transformation(extent={{26,-50},{34,-42}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControlUpperHeater(
     useConstantTemperature=true,
-    constantTemperature=296.15,
+    constantTemperature=297.15,
     comfortFunctionTable=[-15,22.5; 0,22.5; 15,25; 25,25])
     annotation (Placement(transformation(extent={{26,26},{46,46}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.ComfortTemperatureControl comfortTemperatureControlLowerHeater(
@@ -85,8 +85,8 @@ equation
   connect(T_air, comfortTemperatureControlUpperHeater.TDryBull)
     annotation (Line(points={{-105,-7},{-105,36},{26,36}}, color={0,0,127}));
   connect(comfortTemperatureControlUpperHeater.T_ComfortBoundary, Calculation.UpperLimitHeat)
-    annotation (Line(points={{45.8,36},{48,36},{48,8},{2.4,8},{2.4,-22}}, color
-        ={0,0,127}));
+    annotation (Line(points={{45.8,36},{48,36},{48,8},{2.4,8},{2.4,-22}}, color=
+         {0,0,127}));
   connect(comfortTemperatureControlLowerHeater.T_ComfortBoundary, Calculation.LowerLimitHeat)
     annotation (Line(points={{45.8,66},{50,66},{50,-20},{16,-20},{16,-26},{6,-26}},
         color={0,0,127}));
