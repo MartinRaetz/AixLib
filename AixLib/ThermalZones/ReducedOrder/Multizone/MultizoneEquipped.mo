@@ -115,8 +115,8 @@ model MultizoneEquipped
     "CO2 concentration in the thermal zone in ppm"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
   HUS.ComfortTemperatureControl comfortTemperatureControl(constantTemperature(
-        displayUnit="K") = 297.65, comfortFunctionTable=[-15,22.5; 0,22.5; 15,
-        25; 25,25])
+        displayUnit="K") = 297.65, comfortFunctionTable=[-15,23; 0,23; 15,26;
+        25,26])
     annotation (Placement(transformation(extent={{-94,38},{-82,50}})));
 protected
   parameter Real zoneFactor[numZones,1](fixed=false)

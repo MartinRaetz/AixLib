@@ -399,7 +399,7 @@ public
     annotation (Placement(transformation(extent={{176,94},{156,114}})));
   Multizone.HUS.ComfortTemperatureControl comfortTemperatureControl(
       constantTemperature(displayUnit="K") = 301.15, comfortFunctionTable=[-15,
-        20.5; 0,20.5; 17,22; 25,22])
+        20.5; 0,20.5; 15,21; 25,21])
     annotation (Placement(transformation(extent={{146,16},{162,32}})));
   Modelica.Blocks.Sources.RealExpression ZoneArea(y=sum(zoneParam.AZone))
     annotation (Placement(transformation(extent={{176,78},{156,98}})));
