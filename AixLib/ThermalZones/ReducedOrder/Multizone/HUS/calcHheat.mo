@@ -1,7 +1,7 @@
 within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model calcHheat
 
-  parameter Real mFlow_max( final unit="kg/s") = 0.0057;
+  parameter Real mFlow_max( final unit="kg/s") = 0.0036 "Design flow rate for KL7.156 1000-450-20/TV10";
   AixLib.ThermalZones.ReducedOrder.Multizone.HUS.calcNheater CalcNheater
     annotation (Placement(transformation(extent={{-32,40},{-8,58}})));
 
