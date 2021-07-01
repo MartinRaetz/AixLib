@@ -5,7 +5,7 @@ model calcNheater
  parameter Real heightAext = 4.25 "height of outer wall";
  parameter Real radiatorLengthPlusSpacer = 1.774 "KL7.156: (1+1.6)=2.6 heater a 1000-450-20/TV10; OuterWallLength(=4.6125m)/2.6 Heater = 1.774m";
  // Factor was empirically obtained from images of UKA bed room
- parameter Real defaultRadiatorsPerSquaremeter = 0.07068 "If no outer wall exists, the number of heaters is calculated with the room area and a specific scaling factor";
+ parameter Real defaultRadiatorsPerSquaremeter = 0.0952 "If no outer wall exists, the number of heaters is calculated with the room area and a specific scaling factor";
 
  Modelica.Blocks.Interfaces.RealInput A_ext(final unit="m2")
     "Exterior Wall Area"
