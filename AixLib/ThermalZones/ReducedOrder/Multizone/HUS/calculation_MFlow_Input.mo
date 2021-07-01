@@ -1,9 +1,9 @@
 ﻿within AixLib.ThermalZones.ReducedOrder.Multizone.HUS;
 model calculation_MFlow_Input "Calculates heating power"
 
-  parameter Real n(final unit="")= 1.2876 "Purme Hygiene Type 20 Radiators Height 60 Length 200 : empirical coefficent for radiator calculation (Heizkörperkoeffizient (https://www.energie-lexikon.info/heizkoerperexponent.html)";
-  parameter Real Q_Norm( final unit="W")= 2170 "Purme Hygiene Type 20 Radiators Height 60 Length 200";
-  parameter Real deltaT_Norm = 49.8 "Norm temperature difference";
+  parameter Real n(final unit="")= 1.2846 "Purme Hygiene Type 20 Radiators 1000-450-20: empirical coefficent for radiator calculation (Heizkörperkoeffizient (https://www.energie-lexikon.info/heizkoerperexponent.html)";
+  parameter Real Q_Norm( final unit="W")= 863 "Purme Hygiene Type 20 Radiators 1000-450-20";
+  parameter Real deltaT_Norm = 49.833 "Norm temperature difference, reference temperatures 75/65/20 °C ";
   parameter Real cp_w(final unit="J/(kg.K)") = 4184;
   Real deltaT_lnBetrieb;
 
