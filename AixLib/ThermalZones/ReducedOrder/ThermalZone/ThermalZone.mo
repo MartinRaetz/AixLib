@@ -397,6 +397,11 @@ public
   Multizone.UKA.ExteriorWallinclWin exteriorWallinclWin(AExt=sum(zoneParam.AExt),
       AWin=sum(zoneParam.AWin))
     annotation (Placement(transformation(extent={{176,80},{156,100}})));
+  Modelica.Blocks.Sources.RealExpression ZoneArea(y=sum(zoneParam.AZone))
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={166,80})));
 equation
   connect(intGains[2], machinesSenHea.uRel) annotation (Line(points={{80,-100},{
           80,-94},{78,-94},{78,-88},{48,-88},{48,-46.5},{56,-46.5}}, color={0,0,
@@ -699,6 +704,9 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(calcHheat.A_ext, exteriorWallinclWin.y) annotation (Line(points={{
           145.8,71},{144,71},{144,90},{155,90}}, color={0,0,127}));
+  connect(calcHheat.A_zone, ZoneArea.y) annotation (Line(points={{145.8,71},{
+          140,71},{140,84},{152,84},{152,80},{155,80}},
+                color={0,0,127}));
   annotation (Documentation(revisions="<html>
 <ul>
 <li>November 20, 2020, by Katharina Breuer:<br>Combine thermal zone models</li>

@@ -3,13 +3,13 @@ model calcHheat
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.calcTsup
     CalcTsup annotation (Placement(transformation(extent={{-46,-22},{-26,-2}})));
   AixLib.ThermalZones.ReducedOrder.Multizone.UKA.calcAheat
-    CalcAheat annotation (Placement(transformation(extent={{-12,36},{8,56}})));
+    CalcAheat annotation (Placement(transformation(extent={{-42,22},{-22,42}})));
 
  Modelica.Blocks.Interfaces.RealInput A_ext(final unit="m2")
     "Exterior Wall Area"
  annotation (Placement(transformation(extent={{-18,-18},{18,18}},
         rotation=-90,
-        origin={0,100}),
+        origin={-50,92}),
     iconTransformation(extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-2,90})));
@@ -46,11 +46,17 @@ model calcHheat
     annotation (Placement(transformation(extent={{-76,-18},{-56,2}})));
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{26,-50},{34,-42}})));
+  Modelica.Blocks.Interfaces.RealInput A_zone "Zone Wall Area" annotation (
+      Placement(transformation(
+        extent={{-18,-18},{18,18}},
+        rotation=-90,
+        origin={-2,90})));
 equation
-  connect(CalcAheat.A_heat, Calculation.A_heat) annotation (Line(points={{-2,37},
-          {-2,14},{-7.2,14},{-7.2,-23}},color={0,0,127}));
-  connect(A_ext, CalcAheat.A_ext) annotation (Line(points={{0,100},{0,72},{-2.2,
-          72},{-2.2,55}}, color={0,0,127}));
+  connect(CalcAheat.A_heat, Calculation.A_heat) annotation (Line(points={{-32,23},
+          {-32,14},{-7.2,14},{-7.2,-23}},
+                                        color={0,0,127}));
+  connect(A_ext, CalcAheat.A_ext) annotation (Line(points={{-50,92},{-50,72},{-32.2,
+          72},{-32.2,41}},color={0,0,127}));
   connect(T_int, Calculation.T_int) annotation (Line(points={{45,101},{45,20},{
           6,20},{6,10},{0.4,10},{0.4,-23}},
                           color={0,0,127}));
@@ -68,6 +74,8 @@ equation
           12.5,-30.4},{12.5,-30},{42,-30}}, color={0,0,127}));
   connect(const.y, switch2.u3)
     annotation (Line(points={{34.4,-46},{42,-46}}, color={0,0,127}));
+  connect(A_zone, CalcAheat.A_zone) annotation (Line(points={{-2,90},{-2,68},{
+          -29.2,68},{-29.2,42}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end calcHheat;
