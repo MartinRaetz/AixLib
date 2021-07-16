@@ -36,7 +36,7 @@ if Heating_period_spring < Heating_period_autumn then
 
   end if;
 
-elseif Heating_period_autumn < Heating_period_spring then
+else
 
   if eff_time < Heating_period_autumn then
 
