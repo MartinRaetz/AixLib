@@ -20,17 +20,37 @@ equation
 
   eff_time = time; //- (year*floor(time/year));
 
-if eff_time < Heating_period_spring then
+if Heating_period_spring < Heating_period_autumn then
 
-  Heater_switch = true;
+  if eff_time < Heating_period_spring then
+
+    Heater_switch = true;
 
   elseif eff_time > Heating_period_autumn then
 
-  Heater_switch = true;
+    Heater_switch = true;
 
   else
 
-  Heater_switch = false;
+    Heater_switch = false;
+
+  end if;
+
+elseif Heating_period_autumn < Heating_period_spring then
+
+  if eff_time < Heating_period_autumn then
+
+    Heater_switch = false;
+
+  elseif eff_time > Heating_period_spring then
+
+    Heater_switch = false;
+
+  else
+
+    Heater_switch = true;
+
+  end if;
 
 end if;
 
